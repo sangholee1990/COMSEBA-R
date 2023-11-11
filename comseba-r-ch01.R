@@ -1,3 +1,6 @@
+# ==============================================================================
+# 2023.11.04
+# ==============================================================================
 # 주석: Ctrl + Shift + C
 # 1줄 실행 : Ctrl + Enter
 
@@ -138,15 +141,144 @@ help(sum)
 sum(1:5)
 sum(1, 2, 3, 4, 5)
 
+# ==============================================================================
+# 2023.11.11
+# ==============================================================================
+# 라이브러리 설치
+# install.packages("pheatmap")
+# install.packages("gplots")
+# install.packages("openxlsx")
+# install.packages("esquisse")
+# install.packages("DataExplorer")
+
+# 라이브러리 읽기
+library(pheatmap)
+library(gplots)
+library(openxlsx)
+library(esquisse)
+library(DataExplorer)
+
+# 매트릭스 생성
+# 1:20 순서, 4행, 5열 
+matData = matrix(1:20, nrow=4, ncol=5)
+matData
+
+# 매트릭스 시각화
+image(matData)
+
+# 데이터를 행 방향 우선 배치
+matData = matrix(1:20, nrow=4, ncol=5, byrow = TRUE)
+matData
+
+# 매트릭스 시각화
+image(matData)
+
+# 매트릭에서 속성 추출
+matData[1:2, 1:2]
+
+# R에서 제공하는 기본적인 그림 
+image(matData[1:2, 1:2])
+
+# 라이브러리 설치
+install.packages("pheatmap")
+install.packages("gplots")
+
+# 라이브러리 읽기
+library(pheatmap)
+library(gplots)
+
+pheatmap(matData[1:2, 1:2])
+heatmap.2(matData[1:2, 1:2])
+
+
+# 새로운 행렬 추가
+x = 1:4
+y = 5:8
+# 컬럼 방향으로 결합
+m1 = cbind(x, y)
+
+# 행 방향으로 결합
+m2 = rbind(x, y)
+image(m2)
+pheatmap(m2)
+
+
+m2 
+colnames(m2) = c("1", "2", "3", "4")
+
+
+m2 = rbind(x, y)
+# m2에서 숫자 변경 (3 -> 10)
+m2[1, 3] = 10
+m2
+
+# 연습2
+# 매트릭스 생성
+x = c(10, 40, 60, 20)
+y = c(21, 60, 70, 30)
+
+# 컬럼으로 합치기
+m1 = cbind(x, y)
+colnames(m1) = c("m", "f")
+score = m1
+
+score
+
+
+score = matrix(c(10, 40, 60, 20, 21, 60, 70, 30), nrow=4, ncol=2)
+colnames(score) = c("m", "f")
+score
 
 
 
 
 
+# 데이터 프레임 생성
+# dfData = data.frame(
+#   city = c("Seoul", "Tokyo", "Washington")
+#   , rank = c(1, 3, 2)
+# )
+
+# esquisser(dfData)
+
+# R에서 제공중인 데이터 읽기
+iris
+
+# 해당 데이터를 변수 담기
+data = iris
+
+# 라이브러리 읽기
+library(esquisse)
+library(DataExplorer)
+
+# 데이터프레임 시각화 (1)
+esquisser(iris)
+
+# 데이터프레임 시각화 (2)
+plot_intro(iris)
+plot_missing(iris)
+plot_histogram(iris)
+
+iris
+
+# 특정 컬럼 가져오기
+iris$Sepal.Length
+iris[ , 1]
 
 
+library(openxlsx)
 
+# CSV 엑셀 파일 저장/쓰기
+write.csv(iris, "iris.csv")
 
+# XLSX 파일 저장/쓰기
+write.xlsx(iris, "iris.xlsx")
+
+# CSV 파일 읽기
+csvData = read.csv("iris.csv")
+
+# XLSX 파일 읽기
+xlsxData = read.xlsx("iris.xlsx")
 
 
 
