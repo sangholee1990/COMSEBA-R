@@ -1,4 +1,207 @@
 # ==============================================================================
+# 2023.11.18
+# ==============================================================================
+# p138
+job.type = 'A'
+job.type = 'B'
+
+# 조건 2개 (Y, N)
+if (job.type == 'B') {
+  bou = 200
+} else {
+  bou = 100
+}
+print(bou)
+
+bou = ifelse(job.type == 'B', 200, 100)
+print(bou)
+
+# 다중 if-else문 
+# p139
+score = 95
+# score = 85
+# score = 70
+if (score > 90) {
+  grd = 'A'
+} else if (score > 80) {
+  grd = 'B'
+} else {
+  grd = 'C'
+}
+print(grd)
+
+
+grd = ifelse(score > 90, 'A', ifelse(score > 80, 'B', 'C'))
+print(grd)
+
+
+# 반복문 p.144
+# for (i in 1:5) {
+for (i in 10:20) {
+  print(i)
+}
+
+# p146 2단 구구단
+for (i in 1:9) {
+  cat("2 * ", i, " = ", (2 * i), "\n")
+}
+
+# 3단 구구단
+for (i in 1:9) {
+  cat("3 * ", i, " = ", (3 * i), "\n")
+}
+
+# 4단 구구단
+for (i in 1:9) {
+  cat("4 * ", i, " = ", (4 * i), "\n")
+}
+
+# 2~9단 구구단
+for (j in 2:9) {
+  for (i in 1:9) {
+    cat(j, " * ", i, " = ", (j * i), "\n")
+  }
+}
+
+
+
+# 2~9단 구구단 -> 2단 출력
+for (j in 2:9) {
+  for (i in 1:9) {
+    
+    if (j == 2) {
+      cat(j, " * ", i, " = ", (j * i), "\n")
+    }
+    
+  }
+}
+
+
+
+# 2~9단 구구단 -> 3~9단 출력
+for (j in 2:9) {
+  for (i in 1:9) {
+    
+    # 방법 1
+    if (j == 2) {
+      
+    } else {
+      cat(j, " * ", i, " = ", (j * i), "\n")
+    }
+    
+    # 방법 2)
+    if (j != 2) {
+      cat(j, " * ", i, " = ", (j * i), "\n")
+    }
+  }
+}
+
+
+
+# 2~9단 구구단 -> 3~9단 출력
+# 방법 3)
+for (j in 2:9) {
+  
+  if (j == 2) next
+  
+  for (i in 1:9) {
+    cat(j, " * ", i, " = ", (j * i), "\n")
+  }
+}
+
+# p148 1~100 숫자 합
+# R, Python의 경우 반복 속도 느림
+sumVal = 0
+for (i in 1:100) {
+  sumVal = sumVal + i
+  cat(i, sumVal, "\n")
+}
+
+
+# 벡터화를 합계
+sumVal = sum(1:1000000, na.rm = TRUE)
+print(sumVal)
+
+# p151 while 1~100 숫자 합
+sumVal = 0
+i = 1
+while(i <= 100) {
+  sumVal = sumVal + i
+  cat(i, sumVal, "\n")
+  i = i + 1
+}
+print(sumVal)
+
+
+# p155
+iris
+head(iris)
+
+# 열의 합계
+# iris[1, 1]
+# iris[2, 1]
+# iris[3, 1]
+# ...
+# iris[150, 1]
+
+# iris[1, 1] + iris[2, 1] + iris[3, 1]
+
+dim(iris)
+nrow(iris)
+
+sumVal = 0
+for (i in 1:150) {
+  sumVal = sumVal + iris[i, 1]
+  # cat(i, sumVal, "\n")
+}
+print(sumVal)
+
+# 2열의 합
+sumVal = 0
+for (i in 1:150) {
+  sumVal = sumVal + iris[i, 2]
+  # cat(i, sumVal, "\n")
+}
+print(sumVal)
+
+
+# 3열의 합
+sumVal = 0
+for (i in 1:150) {
+  sumVal = sumVal + iris[i, 3]
+  # cat(i, sumVal, "\n")
+}
+print(sumVal)
+
+
+# 방법1) 1~4열 합계 
+for (j in 1:4) {
+  sumVal = 0
+  for (i in 1:150) {
+    sumVal = sumVal + iris[i, j]
+  }
+  print(sumVal)
+}
+
+head(iris)
+iris[1:1, 1]
+iris[1:2, 1]
+iris[1:3, 1]
+sum(iris[1:150, 1])
+
+# 방법2) 벡터화를 합계
+for (j in 1:4) {
+  sumVal = sum(iris[1:150, j])
+  print(sumVal)
+}
+
+# p155 apply 함수
+# 방법3) 열의 합계
+apply(iris[ , 1:4], 2, sum)
+
+
+
+# ==============================================================================
 # 2023.11.04
 # ==============================================================================
 # 주석: Ctrl + Shift + C
@@ -279,38 +482,4 @@ csvData = read.csv("iris.csv")
 
 # XLSX 파일 읽기
 xlsxData = read.xlsx("iris.xlsx")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
