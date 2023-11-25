@@ -307,8 +307,6 @@ grd = ifelse(score > 90, 'A', ifelse(score > 80, 'B', 'C'))
 print(grd)
 
 
-
-
 a = 10
 b = 20
 if (a > 5 & b > 5) {
@@ -556,4 +554,107 @@ st = data.frame(state.x77)
 st$Populatio
 st[ , 1]
 
+# ============================================================
+# 2023.11.25
+# ============================================================
+# 범주형 변수 저장
+ans = c("Y", "Y", "N", "Y", "Y")
+
+table(ans)
+
+table(ans) / length(ans)
+
+table(ans) / length(ans) * 100
+
+tableData = table(ans)
+barplot(tableData)
+pie(tableData)
+
+barplot(tableData, main="title", col = c("red", "blue"))
+pie(tableData, main="title", col = c("red", "blue"))
+
+barplot(tableData, xlab="x axis", ylab="y axis", main="title", col = c("red", "blue"))
+help("barplot")
+? barplot
+
+
+# 연습1
+head(infert)
+edu = infert$education
+unique(edu)
+tableData = table(edu)
+barplot(tableData)
+
+table(edu) / length(edu)
+table(edu) / length(edu) * 100.0
+
+# 연속형 변수 
+height = c(50, 60, 100, 75, 200)
+
+# 평균, 중간값, 최소, 최대값
+mean(height)
+median(height)
+min(height)
+max(height)
+quantile(height)
+
+# 기초 통계량
+summary(height)
+
+# 분산/표준편차
+var(height)
+sd(height)
+
+# 상자그림
+boxplot(height)
+
+# 주별 소득 시각화
+head(state.x77)
+df = data.frame(state.x77)
+income = df$Income
+boxplot(income)
+
+# 연속형 -> 범주형 -> bar chart 
+hist(income)
+stem(income)
+
+
+head(iris)
+tail(iris)
+boxplot(iris$Sepal.Length)
+boxplot(Sepal.Length ~ Species, data = iris)
+
+# 연습2
+score = c(90, 85, 73, 80, 85, 65, 78, 50, 68, 96)
+names(score) = c("KOR", "ENG", "MATH", "HIST", "SOC", "MUSIC", "BIO", "EARTH", "PHY", "ART")
+score
+
+mean(score)
+median(score)
+var(score)
+# 가장 성적이 높은 과목의 이름을 보이시오
+isFlag = (score == max(score))
+score[isFlag]
+
+# 상자그림
+boxplot(score)
+
+hist(score, main = "Hong's score", col = "purple")
+
+# 연습3
+mean(mtcars$wt)
+median(mtcars$wt)
+sd(mtcars$wt)
+
+summary(mtcars$wt)
+
+table(mtcars$cyl)
+barplot(table(mtcars$cyl))
+
+hist(mtcars$wt)
+barplot(table(mtcars$cyl))
+barplot(table(mtcars$gear))
+
+boxplot(mtcars$wt)
+boxplot(mtcars$disp)
 

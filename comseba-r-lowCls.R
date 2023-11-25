@@ -483,3 +483,375 @@ csvData = read.csv("iris.csv")
 # XLSX 파일 읽기
 xlsxData = read.xlsx("iris.xlsx")
 
+
+
+# st 데이터를 이용하여 CSX/XLSX 저장
+# 저장된 CSV/XLSX 데이터 읽기
+
+
+# 2023.11.18
+# 단일 조건문
+a = 10
+# a = 3
+if (a > 5) {
+  print(a)
+} else {
+  print(a * 10)
+}
+
+# 축약 조건문 **
+a = 10
+# a = 3
+ifelse(a > 5, a, a * 10)
+
+# 다중 if-else문 ** 
+# score = 95
+score = 85
+# score = 70
+if (score > 90) {
+  grd = 'A'
+} else if (score > 80) {
+  grd = 'B'
+} else {
+  grd = 'C'
+}
+print(grd)
+
+
+grd = ifelse(score > 90, 'A', ifelse(score > 80, 'B', 'C'))
+print(grd)
+
+
+a = 10
+b = 20
+if (a > 5 & b > 5) {
+  print(a + b)
+}
+
+a = 5
+b = 20
+if (a > 5 & b > 5) {
+  print(a + b)
+}
+
+
+# 1:10 순차적으로 반복문 수행
+for(i in 1:10) {
+  print(i)
+}
+
+# 2단 구구단 생성
+for(i in 1:10) {
+  # print(2 * i)
+  cat("2 * ", i, " = ", 2 * i, "\n")
+  # cat("2 * ", i, " = ", 2 * i)
+}
+
+# 3단 구구단 생성
+for(i in 1:10) {
+  cat("3 * ", i, " = ", 3 * i, "\n")
+}
+
+# 4단
+for(i in 1:10) {
+  cat("4 * ", i, " = ", 4 * i, "\n")
+}
+
+
+# 2~9단 구구단 생성
+for(j in 2:9) {
+  for(i in 1:9) {
+    cat(j, " * ", i, " = ", j * i, "\n")
+  }
+}
+
+# 2~9단 구구단 생성 > 2단 출력
+for(j in 2:9) {
+  for(i in 1:9) {
+    if (j == 2) {
+      cat(j, " * ", i, " = ", j * i, "\n")
+    }
+  }
+}
+
+for(j in 2:9) {
+  if (j == 2) {
+    for(i in 1:9) {
+      cat(j, " * ", i, " = ", j * i, "\n")
+    }
+  }
+}
+
+# for문을 통해 1~100 합계
+sumVal = 0
+for (i in 1:100) {
+  sumVal = sumVal + i
+}
+print(sumVal)
+
+# while 반복문을 통해 1~100 합계
+i = 1
+sumVal = 0
+while(i <= 100) {
+  sumVal = sumVal + i
+  cat(i, sumVal, "\n")
+  i = i + 1
+}
+
+
+# 1~1,000,000,000 반복문을 통해 합계
+for (i in 1:1000000000) {
+  sumVal = sumVal + i
+  # cat(i, sumVal, "\n")
+}
+print(sumVal)
+
+
+for (i in 1:1000000000) {
+  sumVal = sumVal + i
+}
+print(sumVal)
+
+# 벡터화를 통해 합계
+sumVal = sum(1:1000000000)
+print(sumVal)
+
+# 나머지 %%
+# 1 %% 3
+# 10 %% 3
+
+# 3, 12
+# 1. 1~100 사이의 정수중 3 의 배수들의 합과 개수를 구하시오
+
+# 반복문
+sumVal = 0
+cnt = 0
+for (i in 1:100) {
+  if (i %% 3 == 0) {
+    cnt = cnt + 1
+    sumVal = sumVal + i
+    
+    cat(i, cnt, sumVal, "\n")
+  }
+}
+# 33개
+# 1683
+
+# 벡터화
+vector = 1:100
+list = vector[vector %% 3 == 0]
+
+# 합계/개수
+sum(list, na.rm = TRUE)
+length(list)
+
+# 1~100 -> 1,000,000
+
+
+# help(sum)
+# 최대값
+help(max)
+
+# R에서 제공하는 최대값
+max(10, 15)
+min(10, 15)
+
+mymax = function(x, y) {
+  # num.max = x
+  # if (y > x) {
+  #   num.max = y
+  # }
+  
+  if (y > x) {
+    num.max = y
+  } else {
+    num.max = x
+  }
+  
+  return (num.max)
+}
+
+mymax(10, 15)
+
+
+mymin = function(x, y) {
+  if (y < x) {
+    num.max = y
+  } else {
+    num.max = x
+  }
+  
+  return (num.max)
+}
+
+mymin(10, 15)
+
+head(iris)
+# 1행 1열 데이터
+iris[1, 1]
+# 2행 1열 데이터
+iris[2, 1]
+
+# 1열 합계 (1행 + 2행 + 3행)
+# iris[1, 1] +  iris[2, 1] + .... + 
+
+sumVal = 0
+cnt = 0
+for (i in 1:150) {
+  sumVal = sumVal + iris[i, 1]
+  cnt = cnt + 1
+  cat(i, iris[i, 1], sumVal, cnt, "\n")
+}
+print(sumVal)
+print(cnt)
+
+meanVal = sumVal / cnt
+print(meanVal)
+
+# 1열 합계, 1열 개수 -> 1열 평균
+# 2열 합계, 2열 개수 -> 2열 평균
+# 1~4열 합계, 1~4열 개수 -> 1~4열 평균
+for (j in 1:4) {
+  sumVal = 0
+  cnt = 0
+  for (i in 1:150) {
+    sumVal = sumVal + iris[i, j]
+    cnt = cnt + 1
+  }
+  
+  meanVal = sumVal / cnt
+  print(meanVal)
+}
+
+# 벡터화 평균 계산
+# 1~150행, 1열
+mean(iris[1:150, 1])
+mean(iris[1:150, 2])
+mean(iris[1:150, 3])
+mean(iris[1:150, 4])
+
+for (j in 1:4) {
+  meanVal = mean(iris[1:150, j])
+  print(meanVal)
+}
+
+
+# 행에 대한 평균
+mean(iris[1, 1:4], na.rm = TRUE)
+
+# 열에 대한 합계, 개수 -> 평균
+for (i in 1:150) {
+  sumVal = 0
+  cnt = 0
+  for (j in 1:4) {
+    sumVal = sumVal + iris[i, j]
+    cnt = cnt + 1
+  }
+  
+  meanVal = sumVal / cnt
+  print(meanVal)
+}
+
+# iris[1, 1:4]
+
+# 행의 평균
+rowMeans(iris[ , 1:4])
+apply(iris[ , 1:4], 1, mean)
+
+
+# 열의 평균
+colMeans(iris[ , 1:4])
+apply(iris[ , 1:4], 2, mean)
+
+# 신규 데이터
+st = data.frame(state.x77)
+# 평균, 합계 등
+st$Populatio
+st[ , 1]
+
+
+# =========================================================
+# 2023.11.25
+# =========================================================
+# 범주형 데이터 분석
+ans = c("Y", "Y", "N", "Y", "Y")
+
+# 각각의 개수
+table(ans)
+
+# 전체 개수
+length(ans)
+
+# 비율
+table(ans) / length(ans)
+
+# 백분율 = 비율 * 100
+table(ans) / length(ans) * 100
+
+
+# 각각의 개수를 변수 저장
+tableData = table(ans)
+
+# 바 차트로 시각화
+barplot(tableData)
+# barplot(tableData, main = "title", col = c("red", "blue"))
+barplot(tableData, col = c("red", "blue"))
+title(main = "title", col.main = "orange")
+      
+      
+# 파이 차트 시각화
+pie(tableData)
+# pie(tableData, main = "title", col = c("red", "blue"))
+
+
+# 연속형 데이터 (실수, 정수) 분석
+# p188
+# 몸무게 데이터
+weight = c(60, 62, 64, 65, 68, 59)
+
+# 평균
+mean(weight)
+
+# 중간값
+median(weight)
+
+# 최소값
+min(weight)
+
+# 최대값
+max(weight)
+
+# 요약
+summary(weight)
+
+# 히스토그램
+hist(weight)
+
+# 실전 데이터
+head(iris)
+
+# 5열 컬럼 
+summary(iris)
+
+# 실전 데이터를 통해 연속형 변수 분석
+summary(iris$Sepal.Length)
+hist(iris$Sepal.Length)
+
+# 실전 데이터를 통해 범주형 변수 분석
+table(iris$Species)
+table(iris$Species) / length(iris$Species)
+table(iris$Species) / length(iris$Species) * 100
+
+tableData = table(iris$Species)
+barplot(tableData)
+pie(tableData)
+
+# 1열에 대한 요약
+summary(iris$Sepal.Length)
+
+# 요약 정보를 시각화 (상자그림)
+boxplot(iris$Sepal.Length)
+
+
+head(iris)
+boxplot(Sepal.Length ~ Species, data = iris)
