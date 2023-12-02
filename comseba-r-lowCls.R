@@ -855,3 +855,159 @@ boxplot(iris$Sepal.Length)
 
 head(iris)
 boxplot(Sepal.Length ~ Species, data = iris)
+
+
+
+# ==============================================================================
+# 2023.12.02
+# ==============================================================================
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85) 
+
+data = data.frame(height, weight)
+
+# 출력
+print(data)
+
+# 산점도 = 산포도 = 점 그래프
+
+# 1번 방법
+# # 키
+# height = data$height
+# 
+# # 몸무게
+# weight = data$weight
+# 
+# # 점 그래프 (x축: 키, y축 몸무게)
+# # plot(height, weight)
+
+# 2번 방법
+# 점 그래프 (x축: 키, y축 몸무게) > 증가/감소 관계
+plot(data$height, data$weight)
+
+# 그래프 제목 main, x축 제목 xlab, y축 제목 ylab
+plot(data$height, data$weight, xlab = "키", ylab = "몸무게", main = "키와 몸무게")
+
+# 점 컬러 col, 점의 모양 pch
+plot(data$height, data$weight, xlab = "키", ylab = "몸무게", main = "키와 몸무게", col = "red", pch=19)
+
+plot(data$weight, data$height, xlab = "몸무게", ylab = "키", main = "몸무게와 키", col = "red", pch=19)
+
+
+# plot(data$height, data$weight, xlab = "키", ylab = "몸무게", main = "키와 몸무게", col = "red", pch=3)
+
+# 라이브러리 산포도 기능
+pairs(data)
+
+# 상관계수 계산
+cor(data$weight, data$height)
+cor(data$height, data$weight)
+
+# 선 그래프 p221
+month = 1:12
+late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+
+# 점 그래프 = 산점도 = 산포도
+plot(month, late)
+
+# 선 그래프
+plot(month, late, type = 'l')
+
+# 그래프 제목, x/y축 제목
+# x축: 월
+# y축: 지각생
+# 그래프 제목: 월별 지각생 통계
+plot(month, late, type = 'l', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 'b'
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 'o'
+plot(month, late, type = 'o', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 's'
+plot(month, late, type = 's', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# p224 선 그래프 2개
+month = 1:12
+late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+late2 = c(4, 6, 5, 8, 7, 8, 10, 11, 6, 5, 7, 3)
+
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계", col = "blue")
+lines(month, late2, type = 'b', col = "red")
+
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계", col = "blue")
+lines(month, late2, type = 'b', col = "red")
+
+# 상관계수: 월에 따른 지각생 > 관계 없음
+cor(month, late)
+
+# 상관계수: 월에 따른 지각생2 > 관계 없음
+cor(month, late2)
+
+
+# 매트릭스 = 배열 = 행렬
+# 자료형 1개 (숫자, 문자, ...)
+z = matrix(1:20, nrow = 4, ncol = 5)
+z
+
+# 숫자 2를 가져오기
+z[2, 1]
+
+# 숫자 20를 가져오기
+z[4, 5]
+
+# 1행 가져오기 (1    5    9   13   17)
+z[1,]
+
+# 1열 가져오기
+z[,1]
+
+# 1,2열 동시에 가져오기
+z[,1:2]
+
+# 데이터프레임
+# 자료형 N개, 컬럼 이름 제공
+df = data.frame(num = 1:20)
+df
+head(df)
+
+# 4행 가져오기
+df[4, ]
+df[4, "num"]
+df[4, 1]
+df$num[4]
+
+# 4~5행 가져오기
+df[4:5, ]
+df[4:5, "num"]
+df[4:5, 1]
+df$num[4:5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
