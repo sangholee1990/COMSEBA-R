@@ -658,3 +658,124 @@ barplot(table(mtcars$gear))
 boxplot(mtcars$wt)
 boxplot(mtcars$disp)
 
+# ==============================
+# 2023.12.02
+# ==============================
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85) 
+
+data = data.frame(height, weight)
+
+# 산점도
+plot(data$height, data$weight)
+
+# 그림 제목, 축 제목
+plot(data$height, data$weight, main = "키와 몸무게의 관계성", xlab = "키", ylab = "몸무게", col = "red", pch = 19)
+
+# 상관계수
+cor(data$height, data$weight)
+cor(data$weight, data$height)
+
+plot(mtcars$wt, mtcars$mpg, main = "중량과 연비의 관계성", xlab = "중량", ylab = "연비", col = "red", pch = 19)
+
+plot(mtcars$wt, mtcars$mpg, main = "중량과 연비의 관계성", xlab = "중량", ylab = "연비", col = "red", pch = 19, type = "p")
+
+cor(mtcars$wt, mtcars$mpg)
+
+# 라이브러리를 통해 산점도
+pairs(mtcars)
+pairs(data)
+
+pairs(mtcars[ , c("mpg", "disp", "drat")])
+cor(mtcars[ , c("mpg", "disp", "drat")])
+
+# 연습 1
+# 증가 관계
+plot(cars$speed, cars$dist, main = "속도과 제동거리의 관계성", xlab = "속도", ylab = "제동거리", col = "red", pch = 19, type = "p")
+
+# 증가 관계
+plot(pressure$temperature, pressure$pressure, main = "온도과 기압의 관계성", xlab = "온도", ylab = "기압", col = "red", pch = 19, type = "p")
+
+# Population ~ Income : 증가
+# Population ~ Illiteracy : 증가
+# Population ~ Area : 관계 없음
+# Income ~ Illiteracy : 감소
+# Income ~ Area : 증가
+# Illiteracy ~ Area : 관계 없음
+pairs(state.x77[ , c("Population", "Income", "Illiteracy", "Area")])
+cor(state.x77[ , c("Population", "Income", "Illiteracy", "Area")])
+
+# 음주 정보와 혈중 알코올 농도의 상관분석
+beers = c(5,2,9,8,3,7,3,5,3,5)
+bal = c(0.1, 0.03, 0.19, 0.12, 0.04, 0.0095, 0.07, 0.06, 0.02, 0.05)
+
+# cbind 컬럼 추가
+tbl = data.frame(cbind(beers, bal))
+tbl
+# class(tbl)
+
+# plot(tbl$beers, tbl$bal)
+plot(bal ~ beers, data = tbl)
+# res = lm(bal ~ beers, data = tbl)
+# abline(res)
+cor(beers, bal)
+
+# 연습문제 2
+data = data.frame(
+  "Income" = c(125000, 100000, 40000, 35000, 41000, 29000, 35000, 24000, 50000, 60000)
+  , "Years of Education" = c(19, 20, 16, 16, 18, 12, 14, 12, 16, 17)
+)
+
+# 증가 관계
+plot(Years.of.Education ~ Income, data = data)
+# plot(Years.of.Education ~ Income, type = "b", data = data)
+
+
+cor(data$Income, data$Years.of.Education)
+
+
+# 선 그래프 
+data = data.frame(
+  month = 1:12
+  , late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+)
+
+plot(late ~ month, type = "l", data = data)
+plot(late ~ month, type = "b", data = data, main = "월별 지각생 시계열", xlab = "월", ylab = "지각생 빈도", col = "red", pch = 19)
+
+
+
+data = data.frame(
+  month = 1:12
+  , late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+  , late2 = c(4, 6, 5, 8, 7, 8, 10, 11, 6, 5, 7, 3)
+)
+# 1반 시계열
+plot(late ~ month, type = "b", data = data, main = "월별 지각생 시계열", xlab = "월", ylab = "지각생 빈도", col = "red", pch = 19)
+
+# 2반 시계열
+lines(late2 ~ month, type = "b", data = data, col = "blue", pch = 19)
+
+# 매월 및 1반 지각생의 관계성 > 관계 없음
+cor(data$month, data$late)
+
+# 매월 및 2반 지각생의 관계성 > 관계 없음
+cor(data$month, data$late2)
+
+# 연습문제 3
+data = data.frame(
+  year = 2015:2026
+  , val = c(51014, 51245, 51446, 51635, 51811, 51973, 52123, 52261, 52388, 52504, 52609, 52704)
+)
+# 1반 시계열
+plot(val ~ year, type = "b", data = data, main = "2015-2026 인구수 시계열", xlab = "연도", ylab = "인구수", col = "red", pch = 19)
+
+# 증가 관계 : 0.992172
+cor(data$year, data$val)
+
+
+
+
