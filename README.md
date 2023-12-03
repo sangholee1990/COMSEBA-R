@@ -25,7 +25,6 @@
     -   GFS 구글 파일 시스템 문서/데이터 형상관리: 연결/업로드/다운로드
     -   티스토리/네이버 계정 연결, 블로그 포스팅
 
--   주차별 계획
-![](images/comseba-r_주차별%20계획.PNG)
+-   주차별 계획 ![](images/comseba-r_주차별%20계획.png)
 
 -   오프라인 강의안 ![](images/comseba-r_1주차.PNG) ![](images/comseba-r_2주차.PNG) ![](images/comseba-r_2주차2.PNG) ![](images/comseba-r_2주차3.PNG) ![](images/comseba-r_3주차.PNG) ![](images/comseba-r_4주차.PNG) ![](images/comseba-r_5주차.PNG)
