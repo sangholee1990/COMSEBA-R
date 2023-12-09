@@ -981,27 +981,148 @@ df[4:5, "num"]
 df[4:5, 1]
 df$num[4:5]
 
+# ==============================================================================
+# 2023.12.09
+# ==============================================================================
+x = c(1, 2, 3, NA, 5, 8)
+sum(x)
+
+# NA를 제거하고 합계
+sum(x, na.rm = TRUE)
+
+# NA으로 0으로 치환
+x[is.na(x)] = 0
+x
+sum(x)
 
 
+# NA 항목 삭제
+x = c(1, 2, 3, NA, 5, 8)
+x
+y = as.vector(na.omit(x))
+y
 
 
+# 이상치 탐색
+# 샘플 데이터 변수 할당
+st = data.frame(state.x77)
+
+# 상자그림
+boxplot(st$Income)
+
+# 이상값
+boxplot.stats(st$Income)$out
+
+# 정렬 (sort)
+v1 = c(1, 7, 6, 8, 4, 2, 3)
+v1
+
+# 오름차순 정렬
+sort(v1)
+
+# 내림차순 정렬
+sort(v1, decreasing = TRUE)
 
 
+# 조건 선택
+# st$Income 수입 데이터에서 4500 이상
+# 3000 ~ 6315 분포
+sort(st$Income)
+
+# 4500 이상 데이터 선택
+data = subset(st, Income > 4500)
+
+# 선택된 데이터에서 수입
+data$Income
 
 
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85) 
+
+data = data.frame(height, weight)
+
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+
+data = data.frame(height, weight)
+
+# 출력
+head(data)
+
+# ===================================
+# 문제 1번
+# ===================================
+# 결측값: 키의 합계
+sum(data$height, na.rm = TRUE)
+
+# 이상치: 키 여부
+boxplot(data$height)
+boxplot.stats(data$height)$out
+
+# 정렬: 키 내림차순
+sort(data$height, decreasing = TRUE)
+
+# ===================================
+# 문제 2번 
+# ===================================
+# 결측값: 몸무게의 합계
+sum(data$weight, na.rm = TRUE)
+
+# 이상치: 몸무게 여부
+boxplot(data$weight)
+boxplot.stats(data$weight)$out
+
+# 정렬: 몸무게 오름차순
+sort(data$weight, decreasing = FALSE)
+
+# 조건 선택
+dataL1 = subset(data, height > 180)
+dataL1
+
+# ===================================
+# 문제 3번 
+# ===================================
+# 키 170 초과 
+# 몸무게 50 초과
+# 키 170 & 몸무게 50 초과
+
+# 데이터 요약
+# 키 요약
+summary(data$height)
+
+# 몸무게 요약
+summary(data$weight)
+
+# 전체 요약
+summary(data)
 
 
+# 데이터 병합
+# 수학 점수 테이블
+x = data.frame(name = c("a", "b", "c"), math = c(90, 80, 40))
+x
 
+# 국어 점수 테이블
+y = data.frame(name = c("a", "b", "d"), kor = c(75, 60, 90))
+y
+  
 
+# 두 테이블 병합
+# 합집합 a,b,c,d
+merge(x, y, by = c("name"), all=TRUE)
 
+# 교집합 a,b
+merge(x, y, by = c("name"), all=FALSE)
 
+# A기준 a,b,c
+merge(x, y, by = c("name"), all.x = TRUE)
 
-
-
-
-
-
-
-
-
+# B기준 a,b,d
+merge(x, y, by = c("name"), all.y = TRUE)
 
