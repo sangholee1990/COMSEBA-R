@@ -778,5 +778,163 @@ plot(val ~ year, type = "b", data = data, main = "2015-2026 인구수 시계열"
 cor(data$year, data$val)
 
 
+# ==============================================================================
+# 2023.12.16 데이터 전처리
+# ==============================================================================
+x = c(1, 2, 3, NA, 5, 8)
+x
+
+sum(x)
+
+# 1) NA 제거한 후에 합계
+sum(x, na.rm = TRUE)
+
+# 2) NA을 0으로 치환/대체
+z = x
+z[is.na(z)] = 0
+z
+sum(z, na.rm = TRUE)
+
+# 3) x 변수 내에서 NA 제거
+y = as.vector(na.omit(x))
+y
+sum(y)
+
+# 2차원 배열의 NA
+x = iris
+x[1,2] = NA
+x[1,3] = NA
+x[2,3] = NA
+x[3,4] = NA
+
+head(x)
+
+# 행에 따른 결측값
+rowSums(is.na(x))
+
+# 총 NA 결측값 개수
+sum(rowSums(is.na(x)), na.rm = TRUE)
+
+# NA 행을 제거
+x2 = na.omit(x)
+
+# 개수
+dim(x2)
+
+# 이상치
+st = data.frame(state.x77)
+
+# 미국 내 수입 데이터의 상자그림
+boxplot(st$Income)
+
+# 상자그림 내 이상값
+boxplot.stats(st$Income)$out
+
+# 연습문제 2
+st = data.frame(state.x77)
+boxplot(st$Income)
+extVal = boxplot.stats(st$Income)$out
+extVal
+
+# 특정 컬럼에 추출 (1)
+# selData = subset(st, Income == extVal)
+# selData$Income = NA
+
+# 특정 컬럼에 추출 (2)
+isFlag = (st$Income == extVal)
+st[isFlag, "Income"] = NA
+
+boxplot(st$Income)
+
+st2 = na.omit(st)
 
 
+# 데이터 정렬
+
+# 1차원 오름차순 정렬
+sort(st$Income, decreasing = FALSE)
+
+# 1차원 내림차순 정렬
+sort(st$Income, decreasing = TRUE)
+
+# 2차원 Income 컬럼을 기준으로 오름차순 정렬
+# 특정 행번호
+idx = order(st$Income, decreasing = FALSE)
+st[idx, ]
+
+# 내림차순 정렬
+idx = order(st$Income, decreasing = TRUE)
+st[idx, ]
+
+
+# 연습문제3
+# 1. state.x77 데이터셋을 Population 을 기준으로 오름차순 정렬을 하시오
+st = data.frame(state.x77)
+idx = order(st$Population, decreasing = FALSE)
+st[idx, ]
+
+sort(st$Population, decreasing = FALSE)
+
+
+# 조건 선택
+# st의 Income 컬럼에서 3500 초과인 행만 추출
+selData = subset(st, Income > 3500)
+selData
+
+# st의 Income 컬럼에서 3500 초과인 행만 추출
+# st의 Income 컬럼에서 4000 이하인 행만 추출
+selData = subset(st, Income > 3500 & Income <= 4000)
+selData
+
+# 인덱스를 통해 데이터 조건 선택
+idx = which(st$Income > 3500)
+st[idx, "Income"]
+
+
+# 연습문제 4
+# 2. state.x77에서 면적 (area) 이 Alabama 보다 크고 California 보다 작은 주의 이름과 인구수 (Population), 소득 (Income), 면적 ( 을 보이시오
+alaArea = st[rownames(st) == "Alabama", "Area"]
+alaArea
+
+calArea = st[rownames(st) == "California", "Area"]
+calArea
+
+idx = which(st$Area > alaArea & st$Area  < calArea)
+st[idx, c("Population", "Income", "Area")]
+
+# 데이터 요약
+# 숫자형 데이터, 조건 특성, 통계 계산 (평균, 합계 등)
+agg = aggregate(iris[-5], by = list(iris$Species), FUN = mean)
+agg
+
+# 꽃 품종별로 표준편차 
+agg = aggregate(iris[-5], by = list(iris$Species), FUN = sd)
+agg
+
+
+# mtcar 샘플 데이터
+# 복수 특성 (cyl, vs)에 따른 mtcar의 컬럼별 최대값
+agg = aggregate(mtcars, by = list(mtcars$cyl, mtcars$vs), FUN = max)
+agg
+
+# 데이터 병합
+# 수학 점수 테이블
+x = data.frame(name = c("a", "b", "c"), math = c(90, 80, 40))
+x
+
+# 국어 점수 테이블
+y = data.frame(name = c("a", "b", "d"), kor = c(75, 60, 90))
+y
+
+# 두 테이블 병합
+# 합집합 a,b,c,d
+merge(x, y, by = c("name"), all=TRUE)
+
+# 교집합 a,b
+merge(x, y, by = c("name"), all=FALSE)
+
+# A기준 a,b,c
+merge(x, y, by = c("name"), all.x = TRUE)
+
+# B기준 a,b,d
+merge(x, y, by = c("name"), all.y = TRUE)
