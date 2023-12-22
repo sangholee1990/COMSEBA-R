@@ -1303,3 +1303,24 @@ ggplot(data, aes(x = height, fill = gender)) +
   geom_histogram(color = "white", alpha = 0.5) +
   facet_wrap( ~gender, scales = "free_y") +
   labs(title="성별에 따른 키 분포", x="키")
+
+
+# ==============================================================================
+# 2023.12.23
+# ==============================================================================
+# https://console.cloud.google.com/apis/credentials/key/15f0ad2e-ca2e-41a1-b9bf-2d2702d47f0e?project=red-context-395619
+# My First Project
+
+library(ggmap)
+
+ggmap::register_google(key = 'AIzaSyDGPz7yQp4ovNTUEc4QU-c9X73AhtQKPjQ')
+
+names = c("용두암", "성산일출봉", "정방폭포", "중문관광단지", "한라산1100 고지", "차귀도")
+
+addr = c("제주시 용두암길 15", "서귀포시 성산읍 성산리", "서귀포시 동홍동 299 -3", "서귀포시 중문동 2624-1", "서귀포시 색달동 산 1-2", "제주시 한경면 고산리 125")
+
+ggmap::geocode(enc2utf8(addr))
+
+cen = c(128, 38)
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=10)
+ggmap::ggmap(map)
