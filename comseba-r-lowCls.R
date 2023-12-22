@@ -1313,7 +1313,7 @@ ggplot(data, aes(x = height, fill = gender)) +
 
 library(ggmap)
 
-ggmap::register_google(key = 'AIzaSyDGPz7yQp4ovNTUEc4QU-c9X73AhtQKPjQ')
+ggmap::register_google(key = '인증키')
 
 names = c("용두암", "성산일출봉", "정방폭포", "중문관광단지", "한라산1100 고지", "차귀도")
 
