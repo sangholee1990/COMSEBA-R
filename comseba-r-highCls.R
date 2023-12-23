@@ -938,3 +938,217 @@ merge(x, y, by = c("name"), all.x = TRUE)
 
 # B기준 a,b,d
 merge(x, y, by = c("name"), all.y = TRUE)
+
+
+
+# ==============================================================================
+# 2023.12.16
+# ==============================================================================
+# 패키지 설치 (1번)
+# install.packages("ggplot2")
+
+# 패키지 읽기
+library(ggplot2)
+
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "남성", "남성", "남성", "남성", "여성", "여성", "여성", "여성", "여성", "여성", "여성")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender)
+
+# 출력
+head(data)
+
+# 요약 정보
+summary(data)
+
+
+
+# 산점도 = 점 그래프
+
+# 기본 plot 함수
+# x축 데이터, y축 데이터
+# main: 그림 제목
+# xlab: x축 제목
+# ylab: y축 제목
+# pch: 점 모양
+plot(data$height, data$weight, main="Height vs Weight", xlab="Height (cm)", ylab="Weight (kg)", pch=19)
+
+# ggplot2 함수
+ggplot(data, aes(x = height, y = weight)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 히스토그램 그래프
+# 연속형 -> 범주형/카테고리형
+
+# *********************************
+# 키의 분포 시각화
+# *********************************
+# 기본 hist 함수 사용
+hist(data$height, main="Histogram of Height", xlab="Height (cm)", ylab="Frequency")
+
+# ggplot 함수
+ggplot(data, aes(x = height)) +
+  geom_histogram(color = "white") +
+  labs(title="Histogram of Height", x="Height (cm)", y="Frequency")
+
+# *********************************
+# 몸무게의 분포 시각화 
+# *********************************
+# 기본 hist 함수 사용
+hist(data$weight, main="Histogram of Weight", xlab="Weight (kg)", ylab="Frequency")
+
+# ggplot 함수
+ggplot(data, aes(x = weight)) +
+  geom_histogram(color = "white") +
+  labs(title="Histogram of Weight", x="Weight (kg)", y="Frequency")
+
+
+# *********************************
+# 번호에 따른 키의 점선 그래프
+# *********************************
+plot(data$idx, data$height, type = 'o', main="번호에 따른 키의 점선 그래프", xlab="번호", ylab="키 (cm)")
+
+ggplot(data, aes(x = idx, y = height)) +
+  geom_line() +
+  geom_point() +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+
+# *********************************
+# 번호에 따른 몸무게의 점선 그래프
+# *********************************
+plot(data$idx, data$weight, type = 'o', main="번호에 따른 몸무게의 점선 그래프", xlab="번호", ylab="키 (cm)")
+
+ggplot(data, aes(x = idx, y = weight)) +
+  geom_line() +
+  geom_point() +
+  labs(title="번호에 따른 몸무게의 점선 그래프", x="번호", y="키 (cm)")
+
+# *********************************
+# 데이터 전처리
+# *********************************
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "남성", "남성", "남성", "남성", "여성", "여성", "여성", "여성")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender)
+
+# 결측값 (NA) 삭제
+dataL1 = na.omit(data)
+dataL1
+
+
+# *********************************
+# ggplot2 편리성
+# *********************************
+# 성별에 따른 점 그래프 (1) : 색깔
+ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 성별에 따른 점 그래프 (1) : 색깔 + 모양 
+ggplot(dataL1, aes(x = height, y = weight, color = gender, shape = gender)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 성별에 따른 점 그래프 (1) : 색깔 + 모양 + 크기
+ggplot(dataL1, aes(x = height, y = weight, size = weight, color = gender, shape = gender)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+
+# 성별에 따른 점 그래프 (2)
+ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
+  geom_point() +
+  facet_wrap( ~ gender) +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+
+
+# 성별에 따른 선 그래프 (1)
+ggplot(data, aes(x = idx, y = height, color = gender)) +
+  geom_line() +
+  # geom_point(aes(shape = gender), size = 10) +
+  geom_point() +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+
+# 성별에 따른 선 그래프 (2)
+ggplot(data, aes(x = idx, y = height, color = gender)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap( ~gender, scales = "free_x") +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+
+# 성별에 따른 키 분포 (1)
+ggplot(data, aes(x = height, fill = gender)) +
+  # geom_histogram(color = "white", alpha = 0.5) +
+  geom_boxplot() +
+  labs(title="성별에 따른 키 분포", x="키")
+
+
+# 성별에 따른 키 분포 (2)
+ggplot(data, aes(x = height, fill = gender)) +
+  # geom_histogram(color = "white", alpha = 0.5) +
+  geom_boxplot() +
+  facet_wrap( ~gender, scales = "free_y") +
+  labs(title="성별에 따른 키 분포", x="키")
+
+
+# 샘플 데이터 iris
+colnames(iris)
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width)) +
+  geom_point()
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point()
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species)) +
+  geom_point()
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap( ~ Species)
+
+
+# 투명도 조절
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap( ~ Species)
+
+
+# 연습문제 5.1
+state.x77 = data.frame(state.x77)
+colnames(state.x77)
+
+ggplot(data = state.x77, aes(x = Income, y = Illiteracy)) +
+  geom_point()
+
+# 연습문제 5.4
+colnames(iris)
+
+ggplot(iris, aes(x = Species, y = Petal.Width, fill = Species)) +
+  geom_boxplot() +
+  labs(title="품종에 따른 상자그림", x="품종")
