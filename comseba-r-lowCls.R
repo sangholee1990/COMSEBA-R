@@ -1308,19 +1308,107 @@ ggplot(data, aes(x = height, fill = gender)) +
 # ==============================================================================
 # 2023.12.23
 # ==============================================================================
+# 키 데이터 (cm)
+height = c(160, 170, 180, 190, 200)
+
+# 몸무게 데이터 (kg)
+weight = c(50, 60, 70, 80, 90) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "여성", "여성")
+
+# 주소
+addr = c("서울특별시 금천구", "인천광역시 송도", "대전광역시", "부산특별시", "제주도")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender, addr)
+
+
+# 출력
+data
+
 # https://console.cloud.google.com/apis/credentials/key/15f0ad2e-ca2e-41a1-b9bf-2d2702d47f0e?project=red-context-395619
 # My First Project
 
+# 패키지 설치
+install.packages("ggmap")
+
+# 패키지 가져오기
 library(ggmap)
+library(ggplot2)
 
-ggmap::register_google(key = '인증키')
+# 구글 인증키 등록
+ggmap::register_google(key = 인증키)
 
-names = c("용두암", "성산일출봉", "정방폭포", "중문관광단지", "한라산1100 고지", "차귀도")
 
-addr = c("제주시 용두암길 15", "서귀포시 성산읍 성산리", "서귀포시 동홍동 299 -3", "서귀포시 중문동 2624-1", "서귀포시 색달동 산 1-2", "제주시 한경면 고산리 125")
+# R	특정 지역/위경도의 지도 보기
+# 구글맵 요청
+# map = ggmap::get_googlemap(c(128, 38), maptype="roadmap", zoom=1)
 
-ggmap::geocode(enc2utf8(addr))
+# zomm 1~14 조정
+zoom = 14
+# maptype = "roadmap"
+# maptype = "terrain"
+# maptype = "satellite"
+maptype = "hybrid"
+map = ggmap::get_googlemap(c(128, 38), maptype=maptype, zoom=zoom)
 
-cen = c(128, 38)
-map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=10)
+
+# 인천광역시 송도 중심 위경도
+map = ggmap::get_googlemap(c(126.6564, 37.3835), maptype="hybrid", zoom=14)
+
+ggmap::ggmap(map)
+
+
+
+
+
+# R	지도 기반 마커/텍스트/데이터 표시
+
+# 샘플 데이터에서 주소를 위경도 환산
+geoData = ggmap::geocode(enc2utf8(data$addr))
+geoData
+
+# 샘플 데이터에서 위도, 경도 컬럼 추가
+dataL1 = cbind(data, geoData)
+dataL1
+
+# 경도의 평균
+mean(dataL1$lon, na.rm = TRUE)
+
+# 위도의 평균
+mean(dataL1$lat, na.rm = TRUE)
+
+cen = c(mean(dataL1$lon, na.rm = TRUE), mean(dataL1$lat, na.rm = TRUE))
+# cen = c(126.6389, 37.38610)
+
+# 마커 5개
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=6, marker=geoData)
+# map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=14, marker=geoData)
+
+# 마커
+# ggmap::ggmap(map)
+
+# 마커 + 주소 이름
+ggmap::ggmap(map) +
+  geom_text(data = dataL1, aes(x = lon, y = lat), size = 5, label = dataL1$addr)
+
+
+
+
+# 연습문제 1
+# 1번 문제
+geoData = ggmap::geocode(enc2utf8("서울시청"))
+geoData 
+
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=10, marker=geoData)
+
+ggmap::ggmap(map)
+
+# 수동으로 마커 표시
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=6, marker = data.frame(lon = 128, lat = 38))
+
 ggmap::ggmap(map)
