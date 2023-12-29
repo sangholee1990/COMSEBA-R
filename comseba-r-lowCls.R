@@ -1342,8 +1342,6 @@ library(ggplot2)
 
 # 구글 인증키 등록
 ggmap::register_google(key = "인증키")
-# ggmap::register_google(key = "AIzaSyBVRiZKel3TYiLZG1gEzel5Uwfcjlodkcg")
-
 
 # R	특정 지역/위경도의 지도 보기
 # 구글맵 요청
