@@ -1331,17 +1331,18 @@ data = data.frame(idx, height, weight, gender, addr)
 data
 
 # https://console.cloud.google.com/apis/credentials/key/15f0ad2e-ca2e-41a1-b9bf-2d2702d47f0e?project=red-context-395619
-# My First Project
+# My First Project > API 및 서비스 > 사용자 인증 정보
 
 # 패키지 설치
-install.packages("ggmap")
+# install.packages("ggmap")
 
 # 패키지 가져오기
 library(ggmap)
 library(ggplot2)
 
 # 구글 인증키 등록
-ggmap::register_google(key = 인증키)
+ggmap::register_google(key = "인증키")
+# ggmap::register_google(key = "AIzaSyBVRiZKel3TYiLZG1gEzel5Uwfcjlodkcg")
 
 
 # R	특정 지역/위경도의 지도 보기
