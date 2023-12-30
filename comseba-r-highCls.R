@@ -1152,3 +1152,194 @@ colnames(iris)
 ggplot(iris, aes(x = Species, y = Petal.Width, fill = Species)) +
   geom_boxplot() +
   labs(title="품종에 따른 상자그림", x="품종")
+
+
+# ==============================================================================
+# 2023.12.30
+# ==============================================================================
+# 키 데이터 (cm)
+height = c(160, 170, 180, 190, 200)
+
+# 몸무게 데이터 (kg)
+weight = c(50, 60, 70, 80, 90) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "여성", "여성")
+
+# 주소
+addr = c("서울특별시 금천구", "인천광역시 송도", "대전광역시", "부산특별시", "제주도")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender, addr)
+
+
+# 출력
+data
+
+# https://console.cloud.google.com/apis/credentials/key/15f0ad2e-ca2e-41a1-b9bf-2d2702d47f0e?project=red-context-395619
+# My First Project > API 및 서비스 > 사용자 인증 정보
+
+# 패키지 설치
+# install.packages("ggmap")
+
+# 패키지 가져오기
+library(ggmap)
+library(ggplot2)
+
+# 구글 인증키 등록
+ggmap::register_google(key = "인증키")
+
+# 구글맵 요청
+map = ggmap::get_googlemap(c(128, 38), maptype="roadmap", zoom=1)
+
+# 구글맵 시각화
+ggmap::ggmap(map)
+
+# R	특정 지역/위경도의 지도 보기
+# zoom 1~14 조정
+zoom = 6
+# zoom = 14
+# maptype = "roadmap"
+# maptype = "terrain"
+# maptype = "satellite"
+maptype = "hybrid"
+map = ggmap::get_googlemap(c(128, 38), maptype=maptype, zoom=zoom)
+
+# 구글맵 시각화
+ggmap::ggmap(map)
+
+
+# 인천광역시 송도 중심 위경도
+map = ggmap::get_googlemap(c(126.6564, 37.3835), maptype="hybrid", zoom=14)
+
+ggmap::ggmap(map)
+
+
+# R	지도 기반 마커/텍스트/데이터 표시
+# 샘플 데이터에서 주소를 위경도 환산
+geoData = ggmap::geocode(enc2utf8(data$addr))
+geoData
+
+# 샘플 데이터에서 위도, 경도 컬럼 추가
+dataL1 = cbind(data, geoData)
+dataL1
+
+# 경도의 평균
+mean(dataL1$lon, na.rm = TRUE)
+
+# 위도의 평균
+mean(dataL1$lat, na.rm = TRUE)
+
+cen = c(mean(dataL1$lon, na.rm = TRUE), mean(dataL1$lat, na.rm = TRUE))
+# cen = c(126.6389, 37.38610)
+cen
+
+# 마커 5개
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=6, marker=geoData)
+# map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=14, marker=geoData)
+
+# 마커 시각화
+ggmap::ggmap(map)
+
+# 마커 + 주소 이름 시각화
+ggmap::ggmap(map) +
+  geom_text(data = dataL1, aes(x = lon, y = lat), size = 5, label = addr) 
+
+# 마커 + 키 데이터값 시각화
+ggmap::ggmap(map) +
+  geom_text(data = dataL1, aes(x = lon, y = lat, color = height), size = 5, label = height)
+
+# 실습코드 1
+names = c("용두암", "성산일출봉", "정방폭포")
+addr = c("제주시 용두암길 15", "서귀포시 성산읍 성산리", "서귀포시 동홍동 299-3")
+
+gc = geocode(enc2utf8(addr))
+
+df = data.frame(name = names, lon = gc$lon, lat = gc$lat)
+
+cen = c(mean(df$lon, na.rm = TRUE), mean(df$lat, na.rm = TRUE))
+
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=10, size = c(640, 640), marker=gc)
+
+ggmap::ggmap(map)
+
+
+ggmap::ggmap(map) +
+  geom_text(data = df, aes(x = lon, y = lat, label = name), size = 5) 
+
+# 용인 지역 지도 보기
+addr = c("용인")
+
+gc = geocode(enc2utf8(addr))
+gc
+
+cen = as.numeric(gc)
+map = ggmap::get_googlemap(cen, maptype = "roadmap", marker=gc)
+ggmap::ggmap(map)
+
+map = ggmap::get_googlemap(cen, maptype = "terrain", marker=gc)
+ggmap::ggmap(map)
+
+map = ggmap::get_googlemap(cen, maptype = "satellite", marker=gc)
+ggmap::ggmap(map)
+
+map = ggmap::get_googlemap(cen, maptype = "hybrid", marker=gc)
+ggmap::ggmap(map)
+
+
+# 연습문제 1
+# 1번 문제
+geoData = ggmap::geocode(enc2utf8("서울시청"))
+geoData 
+
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=10, marker=geoData)
+
+ggmap::ggmap(map)
+
+# 2번 문제
+geoData = ggmap::geocode(enc2utf8("금강산"))
+geoData 
+
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="hybrid", zoom=8, marker=geoData)
+
+ggmap::ggmap(map)
+
+
+# 3번 문제
+map = ggmap::get_googlemap(c(103.867881, 1.331017), maptype="roadmap", zoom=9)
+
+ggmap::ggmap(map)
+
+
+# 수동으로 마커 표시
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=6, marker = data.frame(lon = 128, lat = 38))
+
+ggmap::ggmap(map)
+
+
+# 연습문제 2
+# 1/2번 문제
+# data = data.frame(addr = c("서울특별시 금천구", "서울특별시 구로구"))
+data = data.frame(addr = c("인천광역시", "대전광역시"))
+
+# 데이터에서 주소를 위경도 환산
+geoData = ggmap::geocode(enc2utf8(data$addr))
+geoData
+
+# 샘플 데이터에서 위도, 경도 컬럼 추가
+dataL1 = cbind(data, geoData)
+dataL1
+
+# 중심 위경도
+cen = c(mean(dataL1$lon, na.rm = TRUE), mean(dataL1$lat, na.rm = TRUE))
+cen
+
+# 마커
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=8, marker=geoData)
+
+# 마커 + 주소 이름 시각화
+ggmap::ggmap(map) +
+  geom_text(data = dataL1, aes(x = lon, y = lat, label = addr), size = 5) 

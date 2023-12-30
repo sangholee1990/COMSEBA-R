@@ -1392,9 +1392,6 @@ map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=6, marker=geoData)
 ggmap::ggmap(map) +
   geom_text(data = dataL1, aes(x = lon, y = lat), size = 5, label = dataL1$addr)
 
-
-
-
 # 연습문제 1
 # 1번 문제
 geoData = ggmap::geocode(enc2utf8("서울시청"))
@@ -1412,22 +1409,29 @@ ggmap::ggmap(map)
 # ==============================================================================
 # 2023.12.30
 # ==============================================================================
-# install.packages(c("RColorBrewer", "wordcloud", "remotes", "RmecabKo", "tm"))
+# 필수 라이브러리 설치
+# install.packages(c("RColorBrewer", "wordcloud", "remotes", "RmecabKo", "RcppMeCab", "tm"))
 
+# 자바 1.8 설치
 # Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk1.8.0_301')
-# Sys.setenv(JAVA_HOME='C:/Program Files/Java/jre-1.8')
+
+# KoNLP 설치
 # remotes::install_github('haven-jeon/KoNLP', force = TRUE, upgrade = "never", INSTALL_opts=c("--no-multiarch"))
 
-# install.packages("RcppMeCab")
+# 샘플 파일 내 scala-library-2.11.8.jar 복사/붙여넣기
+# C:\Users\sangh\AppData\Local\R\win-library\4.3\KoNLP\java
+# scala-library-2.11.8.jar
+
 library(RColorBrewer)
 library(wordcloud)
 library(remotes)
 library(RcppMeCab)
+library(RmecabKo)
 library(tm)
 library(KoNLP)
 
 # RmecabKo 라이브러리를 위한 메타 정보 (명사 사전 등)
-# RmecabKo::install_mecab("c:/mecab")
+RmecabKo::install_mecab("c:/mecab")
 
 # KoNLP 라이브러리를 위한 메타 정보 (명사 사전 등)
 KoNLP::useNIADic()
@@ -1438,14 +1442,16 @@ analyzed_text = extractNoun("안녕하세요, KoNLP 패키지를 사용합니다
 print(analyzed_text)
 
 # 텍스트 파일
-# text = readLines file.choose ())
 text = readLines("김영삼_취임사.txt")
 text
 
+# 문장 취합
 contAll = paste(text, collapse = " ")
 contAll
 
+# *************************************************************
 # RcppMeCab 라이브러리를 통해 명사 추출
+# *************************************************************
 contData = RcppMeCab::pos(utf8::as_utf8(contAll), format = "data.frame") 
 contData
 
@@ -1479,7 +1485,9 @@ wordcloud(names(tokenDataL1[1:10]), freq = tokenDataL1[1:10], colors = pal)
 # 상위 20개 단어구름
 
 
+# *************************************************************
 # KoNLP 라이브러리를 통해 명사 추출
+# *************************************************************
 # 입력 문장
 contAll
 
@@ -1506,4 +1514,3 @@ barplot(tokenDataL1[1:10])
 pal = brewer.pal(8, "Dark2")
 
 wordcloud(names(tokenDataL1[1:10]), freq = tokenDataL1[1:10], colors = pal)
-
