@@ -1362,9 +1362,6 @@ map = ggmap::get_googlemap(c(126.6564, 37.3835), maptype="hybrid", zoom=14)
 ggmap::ggmap(map)
 
 
-
-
-
 # R	지도 기반 마커/텍스트/데이터 표시
 
 # 샘플 데이터에서 주소를 위경도 환산
@@ -1411,3 +1408,103 @@ ggmap::ggmap(map)
 map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=6, marker = data.frame(lon = 128, lat = 38))
 
 ggmap::ggmap(map)
+
+# ==============================================================================
+# 2023.12.30
+# ==============================================================================
+# install.packages(c("RColorBrewer", "wordcloud", "remotes", "RmecabKo", "tm"))
+
+# Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk1.8.0_301')
+# Sys.setenv(JAVA_HOME='C:/Program Files/Java/jre-1.8')
+# remotes::install_github('haven-jeon/KoNLP', force = TRUE, upgrade = "never", INSTALL_opts=c("--no-multiarch"))
+
+# install.packages("RcppMeCab")
+library(RColorBrewer)
+library(wordcloud)
+library(remotes)
+library(RcppMeCab)
+library(tm)
+library(KoNLP)
+
+# RmecabKo 라이브러리를 위한 메타 정보 (명사 사전 등)
+# RmecabKo::install_mecab("c:/mecab")
+
+# KoNLP 라이브러리를 위한 메타 정보 (명사 사전 등)
+KoNLP::useNIADic()
+
+# KoNLP 명사 추출
+example_text ="안녕하세요, KoNLP 패키지를 사용합니다."
+analyzed_text = extractNoun("안녕하세요, KoNLP 패키지를 사용합니다.")
+print(analyzed_text)
+
+# 텍스트 파일
+# text = readLines file.choose ())
+text = readLines("김영삼_취임사.txt")
+text
+
+contAll = paste(text, collapse = " ")
+contAll
+
+# RcppMeCab 라이브러리를 통해 명사 추출
+contData = RcppMeCab::pos(utf8::as_utf8(contAll), format = "data.frame") 
+contData
+
+# 명사 추출
+contDataL1 = subset(contData, pos == "NNG")
+contDataL1
+
+# 명사/키워드에 대한 빈도 개수
+tokenData = table(contDataL1$token)
+tokenData
+
+# 명사/키워드 개수를 정렬
+tokenDataL1 = sort(tokenData, decreasing = TRUE)
+tokenDataL1
+
+# 상위10개 키워드
+tokenDataL1[1:10]
+
+# 상위 10개 빈도분포 시각화
+barplot(tokenDataL1[1:10])
+
+# 상위 10개 단어 구름 = 워드 클라우드 시각화
+# 컬러바
+pal = brewer.pal(8, "Dark2")
+
+wordcloud(names(tokenDataL1[1:10]), freq = tokenDataL1[1:10], colors = pal)
+
+
+# 상위 20개 빈도분포 
+
+# 상위 20개 단어구름
+
+
+
+# KoNLP 라이브러리를 통해 명사 추출
+# 입력 문장
+contAll
+
+# 명사 추출
+contDataL1 = KoNLP::extractNoun(contAll)
+contDataL1
+
+# 명사/키워드에 대한 빈도 개수
+tokenData = table(contDataL1)
+tokenData
+
+# 명사/키워드 개수를 정렬
+tokenDataL1 = sort(tokenData, decreasing = TRUE)
+tokenDataL1
+
+# 상위10개 키워드
+tokenDataL1[1:10]
+
+# 상위 10개 빈도분포 시각화
+barplot(tokenDataL1[1:10])
+
+# 상위 10개 단어 구름 = 워드 클라우드 시각화
+# 컬러바
+pal = brewer.pal(8, "Dark2")
+
+wordcloud(names(tokenDataL1[1:10]), freq = tokenDataL1[1:10], colors = pal)
+
