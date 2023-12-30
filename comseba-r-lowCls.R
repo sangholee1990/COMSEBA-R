@@ -1479,7 +1479,6 @@ wordcloud(names(tokenDataL1[1:10]), freq = tokenDataL1[1:10], colors = pal)
 # 상위 20개 단어구름
 
 
-
 # KoNLP 라이브러리를 통해 명사 추출
 # 입력 문장
 contAll
