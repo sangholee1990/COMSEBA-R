@@ -1695,51 +1695,52 @@ mse
 # ==============================================================================
 # 2024.01.13
 # ==============================================================================
+# https://drive.google.com/drive/folders/1e7olrCOB1Vj7EgeICYdyuO4XHyN06Whq?usp=sharing
 # data = read.csv(file = "기온-습도-아이스크림 판매량.csv")
 # data
-# 
+#
 # # 판매량을 범주형 변수로 변환 (예: 낮음, 중간, 높음)
 # data$salesFac = cut(data$sales, breaks=quantile(data$sales, probs=0:2/2), include.lowest=TRUE, labels=c("낮음", "높음"))
 # data
-# 
+#
 # # 범주형 변수 시각화
 # tbData = table(data$salesFac)
 # tbData
 # barplot(tbData)
-# 
+#
 # # 로지스틱 회귀 모델 적합 (기온, 습도 -> 판매량 범주)
 # lmModel = glm(salesFac ~ temp + humi, data=data, family=binomial)
 # summary(lmModel)
-# 
+#
 # # 기온 30, 습도 30%일 때 분류 판매량
 # predict.glm(lmModel, newdata = data.frame(temp = 30, humi = 30), type = "response")
-# 
-# # 기온 50, 습도 50%일 때 분류 판매량 
+#
+# # 기온 50, 습도 50%일 때 분류 판매량
 # predict.glm(lmModel, newdata = data.frame(temp = 30, humi = 50), type = "response")
-# 
+#
 # # 예측 결과
 # data$prdCls = predict.glm(lmModel, type = "response")
 # data$prdClsName = ifelse(data$prdCls > 0.5, "높음", "낮음")
-# 
+#
 # View(data)
-# 
+#
 # # 카테고리형 정확도 측정
 # yObs = data$salesFac
 # yObsYn = as.numeric(yObs)
-# 
+#
 # yHat = data$prdCls
 # yHatYn = ifelse(yHat > 0.5, 2, 1)
-# ㅉㅉㅉ
+
 # conMatRes = caret::confusionMatrix(data = factor(yHatYn), reference = factor(yObsYn))
 # # 정확도 : 0.809
 # round(conMatRes$overall["Accuracy"], 4)
-# 
-# # 민감도 : 0.6296 
+#
+# # 민감도 : 0.6296
 # round(conMatRes$byClass["Sensitivity"])
-# 
-# # 특이도 : 0.8871 
+#
+# # 특이도 : 0.8871
 # round(conMatRes$byClass["Specificity"])
-# 
+#
 # # ROC 커브를 위한 설정
 # logitRoc = ROCit::rocit(score = yHatYn, class = yObsYn)
 # mainTitle = "ROC 곡선-전체 변수"
@@ -1765,7 +1766,7 @@ lmModel = lm(sales ~ temp, data)
 # a = 2.485, b = 43.700
 lmModel
 
-# 회귀식 시각화 
+# 회귀식 시각화
 abline(coef(lmModel), col = "red")
 
 # 기온 30도일 때 예측 판매량 117.738 (예측 O)
@@ -1784,3 +1785,101 @@ as.integer(predict(lmModel, newdata = data.frame(temp = 30)))
 # 기온 50도일 때 예측 판매량 167.3882 (예측 O)
 predict(lmModel, newdata = data.frame(temp = 50))
 as.integer(predict(lmModel, newdata = data.frame(temp = 50)))
+
+
+# ==============================================================================
+# 2024.01.20
+# ==============================================================================
+# 라이브러리 설치
+# install.packages("factoextra")
+
+# 라이브러리 읽기
+library(factoextra)
+
+# 데이터 읽기
+data = read.csv("학생 번호에 따른 국영수과 및 학업집중도 점수.csv", encoding = "UTF-8")
+data
+
+# 영어 및 수학 점수만 사용
+dataL1 = data[ ,c("수학점수평균", "과학점수평균")]
+# dataL1 = data[ ,c("영어점수평균", "수학점수평균")]
+# dataL1 = data[ ,c("국어점수평균", "영어점수평균", "수학점수평균", "과학점수평균", "학업집중도")]
+dataL1
+
+# 군집화 개수
+# nClu = 4
+nClu = 5
+
+# k-means 군집화 (클러스터링) 수행
+kmeansModel = kmeans(dataL1, nClu)
+kmeansModel
+
+factoextra::fviz_cluster(kmeansModel, data=dataL1, stand=FALSE)
+
+dataL2 = data.frame(data, nClu = kmeansModel$cluster)
+dataL2
+
+
+
+# 연습문제 2
+radList = c(10, 15, 20)
+PI = 3.14
+
+(radList ^ 2) * PI
+
+# 연습문제3
+x = c(6, 8, 10)
+y = (2 * (x ^2)) + (5 * x) + 10
+
+y
+
+# 연습3
+d = 101:200
+
+d
+d[10]
+tail(d, 10)
+
+isFlag = ((d %% 2) == 0)
+d[isFlag]
+
+d.20 = head(d, 20)
+d.20
+
+d.20[5]
+d.20[-5]
+
+# 연습4
+d1 = 1:50
+d2 = 51:100
+
+d1
+d2
+
+d1 + d2
+d1 - d2
+d1 * d2
+d2 / d1
+
+sum(d1, na.rm = TRUE)
+sum(d2, na.rm = TRUE)
+
+sum(c(d1, d2), na.rm = TRUE)
+
+max(d2, na.rm = TRUE)
+min(d2, na.rm = TRUE)
+
+mean(d1, na.rm = TRUE)
+mean(d2, na.rm = TRUE)
+
+sort(d1, decreasing = TRUE)
+
+sort(d1, decreasing = TRUE)[1:10]
+head(sort(d1, decreasing = TRUE), 10)
+head(sort(d2, decreasing = TRUE), 10)
+
+d3 = c(
+  head(sort(d1, decreasing = TRUE), 10)
+  , head(sort(d2, decreasing = TRUE), 10)
+  )
+
