@@ -316,3 +316,171 @@ z = matrix(1:20, nrow=4, ncol = 5)
 
 # 4 x 5 행렬
 z
+
+
+
+# ========================================================
+# 2024.02.03 4주차
+# ========================================================
+# 매트릭스 소개/활용
+# 열 우선
+z = matrix(1:20, nrow = 4, ncol = 5, byrow = FALSE)
+z
+
+# 행 우선
+z = matrix(1:20, nrow = 4, ncol = 5, byrow = TRUE)
+z
+
+# 벡터 2개를 매트릭스 생성
+x = 1:4
+y = 5:8
+
+# c: column 컬럼 (열)을 기준으로 합침
+m1 = cbind(x, y)
+m1
+
+# r: row 행을 기준으로 합침
+m2 = rbind(x, y)
+m2
+
+# m3 = rbind(m2, x)
+# m3
+
+# rbind(x, y, y, y)
+
+z
+
+# 특정 인덱스에 대한 값 추출
+# 행, 열 인덱스
+z[2, 3]
+z[1, 4]
+
+# 2행 전체 값
+z[2, ]
+
+# 4열 전체 값
+z[ , 4]
+z
+
+# 행 이름 보기
+rownames(z)
+
+# 열 이름 보기
+colnames(z)
+
+# 행 이름 지정
+rownames(z) = c("row1", "row2", "row3", "row4")
+
+# 열 이름 지정
+colnames(z) = c("col1", "col2", "col3", "col4", "col5")
+
+# 행열 인덱스로 값 추출
+z[3, 3]
+
+# 행열 이름으로 값 추출
+z["row3", "col3"]
+
+# 연습2
+# 1. 다음과 같은 내용의 matrix 를 생성하시오 이름은 score)
+score = matrix(c(10, 40, 60, 20, 21, 60, 70, 30), nrow = 4, ncol = 2, byrow = FALSE)
+
+score
+
+colnames(score) = c("male", "female")
+score
+
+score[2, ]
+score[ , "female"]
+score[3, 2]
+
+
+# 데이터프레임 소개/활용
+# data frame 만들기
+# 문자형
+city = c("Seoul", "Tokyo", "Washington")
+# 숫자형
+rank = c(1, 3, 2)
+
+# 데이터프레임 : 문자형 + 숫자형
+city.info = data.frame(city, rank)
+city.info
+
+# R에서 기본적인 데이터셋
+iris
+
+# 5행 미리보기
+head(iris)
+
+
+# 데이터프레임 여부 (TRUE)
+is.data.frame(iris)
+is.data.frame(z)
+
+# 인덱스로 값 추출
+iris[ , 5]
+
+# 컬럼 이름으로 값 추출
+iris[ , "Species"]
+iris["Species"]
+iris$Species
+
+# 컬럼 인덱스를 통해 다중 값 추출
+iris[ , c(1, 2)]
+iris[ , c(1, 3, 5)]
+
+# 컬럼 이름 확인
+colnames(iris)
+
+# 컬럼 이름을 통해 다중 값 추출
+iris[ , c("Sepal.Length", "Species")]
+
+# 1~50행에서 모든 열 추출
+iris[1:50, ]
+
+# 1~50행에서 1,3열 추출
+iris[1:50, c(1,3)]
+
+
+# 다양한 함수 (subset 등) 예시
+# 150 행 개수
+# 5 열 개수
+dim(iris)
+
+dim(iris)[1]
+dim(iris)[2]
+
+# 행 개수
+nrow(iris)
+
+# 열 개수
+ncol(iris)
+
+# 열 이름 보기
+names(iris)
+colnames(iris)
+
+# 데이터 요약 보기 (앞 5개)
+head(iris, 5)
+
+# 데이터 요약 보기 (뒤 10개)
+head(iris, 10)
+
+# data = iris
+
+# 데이터 구성 정보
+str(iris)
+
+# 중복 제거
+unique(iris[, 5])
+
+# 품종의 종류 보기
+table(iris[, 5])
+
+
+# 열에 대한 합계
+# iris[, -5]: 5번째 열을 제외
+colSums(iris[, -5])
+colMeans(iris[, -5])
+
+rowSums(iris[, -5])
+rowMeans(iris[, -5])
