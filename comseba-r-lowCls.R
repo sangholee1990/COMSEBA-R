@@ -180,8 +180,8 @@ matData[1:2, 1:2]
 image(matData[1:2, 1:2])
 
 # 라이브러리 설치
-install.packages("pheatmap")
-install.packages("gplots")
+# install.packages("pheatmap")
+# install.packages("gplots")
 
 # 라이브러리 읽기
 library(pheatmap)
@@ -194,12 +194,19 @@ heatmap.2(matData[1:2, 1:2])
 # 새로운 행렬 추가
 x = 1:4
 y = 5:8
-# 컬럼 방향으로 결합
+
+# 열 방향으로 결합
 m1 = cbind(x, y)
 
 # 행 방향으로 결합
 m2 = rbind(x, y)
+
+m2
+
+# 매트릭스 데이터를 기본 패키지 시각화
 image(m2)
+
+# 매트릭스 데이터를 pheatmap 패키지 시각화
 pheatmap(m2)
 
 
