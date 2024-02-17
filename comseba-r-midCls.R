@@ -484,3 +484,148 @@ colMeans(iris[, -5])
 
 rowSums(iris[, -5])
 rowMeans(iris[, -5])
+
+
+# ========================================================
+# 2024.02.17 5주차
+# ========================================================
+z = matrix(1:20, nrow=4, ncol=5)
+z
+
+# 전치 행렬
+# 행과 열 방향 변환
+t(z)
+
+# subset 조건에 맞는 행 추출
+# 조건 1개 = 단일 조건
+IR.1 = subset(iris, Species == "setosa")
+
+IR.1
+head(IR.1)
+
+# 다중 조건 (& 그리고, | 또는)
+# 컬럼 이름 복붙
+colnames(iris)
+
+IR.2 = subset(iris, Sepal.Length > 5.0 & Sepal.Width > 4.0)
+
+head(IR.2)
+
+
+# matrix 사칙연산
+# 4행 5열 매트릭스 생성
+a = matrix(1:20, 4, 5)
+b = matrix(21:40, 4, 5)
+
+a
+b
+a + b
+b - a
+b / a
+a * b
+3 * a
+
+
+# 자료구조 확인
+class(iris)
+class(state.x77)
+
+is.matrix(iris)
+is.data.frame(iris)
+
+# 데이터프레임 to 매트릭스 변환
+class(iris)
+
+# 매트릭스 (동일한 숫자형)
+iris.m = as.matrix(iris[, 1:4])
+iris.m
+class(iris.m)
+
+# 연습3
+# state.x77
+
+# 1번
+st = data.frame(state.x77)
+
+# 2번
+st
+
+# 3번
+colnames(st)
+
+# 4번
+rownames(st)
+
+# 5번
+dim(st)
+# str(st)
+
+# 6번
+summary(st)
+
+rowSums(st)
+rowMeans(st)
+
+colSums(st)
+colMeans(st)
+
+# head(st)
+subset(st, rownames(st) == "Florida")
+
+# 50개 주의 Income 정보만 보이시오
+st$Income
+
+selData = subset(st, rownames(st) == "Texas")
+selData$Area
+
+selData = subset(st, rownames(st) == "Ohio")
+selData$Population
+selData$Income
+
+# 16번
+subset(st, Area >= 100000 & Frost >= 120)
+
+
+# CSV/XLSX 파일 데이터 예시
+st
+
+# CSV 저장/쓰기
+write.csv(st, "st.csv")
+write.csv(st, "st1.csv", row.names = FALSE)
+
+# CSV 읽기 
+stDate = read.csv("st.csv")
+head(stDate)
+
+
+# 엑셀 라이브러리 설치
+# install.packages("openxlsx")
+
+# 엑셀 라이브러리 읽기
+library(openxlsx)
+
+# XLSX 파일 저장/쓰기
+openxlsx::write.xlsx(st, "st.xlsx", rowNames = TRUE)
+
+# XLSX 파일 읽기
+xlsxData = read.xlsx("st.xlsx")
+head(xlsxData)
+
+
+# 연습4
+stateData = data.frame(state.x77)
+stateDataL1 = subset(stateData, Income >= 5000)
+
+# CSV 저장/쓰기
+write.csv(stateDataL1, "rich_state.csv")
+
+# CSV 읽기 
+stDate = read.csv("rich_state.csv")
+head(stDate)
+
+# XLSX 파일 저장/쓰기
+openxlsx::write.xlsx(stateDataL1, "rich_state.xlsx", rowNames = TRUE)
+
+# XLSX 파일 읽기
+xlsxData = read.xlsx("rich_state.xlsx")
+head(xlsxData)
