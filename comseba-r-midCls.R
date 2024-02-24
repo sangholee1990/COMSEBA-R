@@ -629,3 +629,198 @@ openxlsx::write.xlsx(stateDataL1, "rich_state.xlsx", rowNames = TRUE)
 # XLSX 파일 읽기
 xlsxData = read.xlsx("rich_state.xlsx")
 head(xlsxData)
+
+
+# ========================================================
+# 2024.02.24 6주차
+# ========================================================
+a = 10
+
+# 이중 조건문 
+if (a > 5) {
+  print(a)
+} else {
+  print(a * 10)
+}
+
+# 그리고/또는 조건문
+a = 10
+b = 20
+
+# 그리고 & (숫자 키패드 7 + 특문)
+if (a > 5 & b > 5) {
+  print(a + b)
+}
+
+# 또는 | (Enter 바로 위 + 특문)
+if (a > 5 | b > 30) {
+  print(a * b)
+} 
+
+# 삼항연산자 테스트
+a = 10
+b = 20
+
+# 5줄
+if (a > b) {
+  c = a
+} else {
+  c = b
+}
+print(c)
+
+# 1줄
+c = ifelse(a > b, a, b)
+print(c)
+
+
+# 다중 if-else문
+score = 95
+# score = 85
+# score = 70
+if (score > 90) {
+  grd = 'A'
+} else if (score > 80) {
+  grd = 'B'
+} else {
+  grd = 'C'
+}
+print(grd)
+
+# 삼항연산자 ifelse
+grd = ifelse(score > 90, 'A', ifelse(score > 80, 'B', 'C'))
+print(grd)
+
+# for 반복문
+# 정해진 횟수를 기준으로 유한 번 반복
+for (i in 1:10) {
+  print(i)
+}
+
+# 2단 구구단
+for (i in 1:10) {
+  # cat("2 * ", i, " = ", 2 * i, "\n")
+  cat("9 * ", i, " = ", 9 * i, "\n")
+}
+
+# 1~20 내에서 짝수만 출력
+for (i in 1:20) {
+  
+  # 나머지 0인 경우
+  # if (i %% 2 == 0) {
+  #   print(i)
+  # }
+  
+  if (i %% 2 == 0) print(i)
+}
+
+# 1~20 내에서 홀수만 출력
+for (i in 1:20) {
+  if (i %% 2 == 1)  print(i)
+}
+
+# 1~100 합계 계산
+# a1 = 1
+# a2 = 2
+# a1 + a2
+
+# for 반복문을 통해 합계 
+sumVal = 0
+n = 100
+for (i in 1:n) {
+  sumVal = sumVal + i
+}
+print(sumVal)
+
+# 벡터화를 통해 합계
+sum(1:n)
+
+# while 반복문
+# 무한한 개수 내에서 조건문 만족할 때 끝남
+i = 1
+while(i <= 10) {
+  print(i)
+  i = i + 1
+}
+
+# 1~100 합계를 while문 변경
+i = 1
+sumVal = 0
+while(i <= 100) {
+  sumVal = sumVal + i
+  cat(i, sumVal, "\n")
+  i = i + 1
+}
+
+
+# 연습문제 1.1 - 반복문
+sumVal = 0
+cnt = 0
+for (i in 1:100) {
+  if (i %% 3 == 0) {
+    cnt = cnt + 1
+    sumVal = sumVal + i
+
+    cat(i, cnt, sumVal, "\n")
+  }
+}
+# 33개
+# 1683
+
+# 연습문제 1.1 - 벡터화
+vector = 1:100
+list = vector[vector %% 3 == 0]
+
+# 합계/개수
+sum(list)
+length(list)
+
+# 연습문제 1.4
+sumVal = 1
+for (i in 1:10) {
+  sumVal = sumVal * i
+  cat(i, sumVal, "\n")
+}
+
+
+# 사용자 정의 함수 만들기
+mymax = function(x, y) {
+  num.max = x 
+  if (y > x) {
+    num.max = y
+  }
+  
+  return(num.max)
+}
+# mymax
+
+mymax(10, 15)
+mymax(20, 15)
+
+# 삼항연산자 조건축약문 간소화
+mymax2 = function(x, y) {
+  return(ifelse(y > x, y, x))
+}
+
+mymax2(10, 15)
+mymax2(20, 15)
+
+mymax2(x = 20, y = 15)
+
+
+# 반복문 열 평균
+head(iris)
+
+for (i in 1:4) {
+  meanVal = mean(iris[ , i])
+  print(meanVal)
+}
+
+# 벡터화 apply 함수 열 평균
+colMeans(iris[, 1:4])
+
+apply(iris[ , 1:4], 2, mean)
+
+# 벡터화 apply 함수 행 평균
+apply(iris[ , 1:4], 1, mean)
+
