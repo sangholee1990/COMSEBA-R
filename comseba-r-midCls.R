@@ -824,3 +824,132 @@ apply(iris[ , 1:4], 2, mean)
 # 벡터화 apply 함수 행 평균
 apply(iris[ , 1:4], 1, mean)
 
+
+# ========================================================
+# 2024.03.02 7주차
+# ========================================================
+# 범주형 - 명목형 변수 자료탐색
+ans = c("Y", "Y", "N", "Y", "Y")
+
+# 각 요소별 개수
+table(ans)
+
+# 비율
+table(ans) / length(ans)
+
+# 백분율
+table(ans) / length(ans) * 100
+
+# 비율 시각화/가시화/그림
+tbData = table(ans)
+barplot(tbData)
+
+# 백분율 시각화/가시화/그림
+tbData = table(ans) / length(ans) * 100
+barplot(tbData)
+
+# 막대그래프 작성
+favColor = c("red", "green", "yellow", "red", "green", "red", "red")
+
+tbData = table(favColor)
+barplot(tbData)
+pie(tbData)
+
+# 샘플 파일로 막대그래프 
+# 자동차 모델별 제원
+head(mtcars)
+
+# 특정 컬럼 데이터 가져오기
+carb = mtcars$carb
+
+tbData = table(carb)
+
+# 그림 옵션 지정
+barplot(tbData, main = "제목", xlab = "x축 제목", ylab = "y축 제목", col="green")
+pie(tbData)
+
+# 1x3 윈도우 생성
+par(mfrow = c(1,3))
+barplot(tbData, main = "제목", xlab = "x축 제목", ylab = "y축 제목", col="red")
+barplot(tbData, main = "제목", xlab = "x축 제목", ylab = "y축 제목", col="blue")
+barplot(tbData, main = "제목", xlab = "x축 제목", ylab = "y축 제목", col="green")
+
+# 1x1 원도우 생성
+par(mfrow = c(1,1))
+barplot(tbData, main = "제목", xlab = "x축 제목", ylab = "y축 제목", col="red")
+
+# 도움말
+help(barplot)
+?barplot
+
+# Formula method
+# barplot(GNP ~ Year, data = longley)
+# barplot(cbind(Employed, Unemployed) ~ Year, data = longley)
+
+# 원 그래프 생성
+favColor = c("red", "green", "yellow", "red", "green", "red", "red")
+
+tbData = table(favColor)
+pie(tbData)
+
+
+# 단일변수 - 연속형 변수
+mydata = c(50, 60, 100, 75, 200)
+mydata.big = c(mydata, 50000)
+
+# 평균
+mean(mydata)
+mean(mydata.big)
+
+# 중간값 50% 비율
+median(mydata)
+median(mydata.big)
+
+# 백분율에 따른 값 분포
+quantile(mydata)
+
+# 요약 통계량
+# 최소값, 25%값, 중간값=50%값, 평균, 75%값, 최대값
+summary(mydata)
+
+
+# 미국 주별 데이터
+head(state.x77)
+
+st.income = state.x77[, "Income"]
+
+summary(st.income)
+
+boxplot(st.income)
+
+# iris 꽃 종류 데이터
+# 꽃 종류에 따라 Petal.Width 상자 그림
+boxplot(Petal.Width ~ Species, data = iris)
+
+# 히스토그램
+# 연속형 데이터를 이용해서 비율/개수 계산
+hist(st.income)
+
+# breaks 범주를 설정
+hist(st.income, breaks = 50)
+
+# 연습2
+# 1. 이 데이터를 score 벡터에 저장하시오 . 과목명은 데이터 이름으로 저장
+하시오
+score = c(90, 85, 73, 80, 85, 65, 78, 50, 68, 96)
+
+names(score) = c("KOR", "ENG", "MATH", "HIST", "SOC", "MUSIC", "BIO", "EARTH", "PHY", "ART")
+
+# 2. score 벡터의 내용을 보이시오
+score
+
+# 3.전체 성적의 평균은 얼마인가
+mean(score)
+mean(score, na.rm = TRUE)
+
+# 4.전체 성적의 중앙값은 얼마인가
+median(score, na.rm = TRUE)
+
+# 6~8번
+
+# 연습3
