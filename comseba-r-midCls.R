@@ -953,3 +953,117 @@ median(score, na.rm = TRUE)
 # 6~8번
 
 # 연습3
+
+
+# ========================================================
+# 2024.03.30 11주차 다중변수 자료탐색
+# ========================================================
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85) 
+
+data = data.frame(height, weight)
+
+# 출력
+# print(data)
+data
+
+# 산점도 = 산포도 = 점 그래프
+# 1번 방법
+# 데이터 내 키 가져오기
+height = data$height
+
+# 데이터 내 몸무게 가져오기
+weight = data$weight
+
+# 점 그래프 (x축: 키, y축 몸무게)
+plot(height, weight)
+
+# 2번 방법
+# 점 그래프 (x축: 키, y축 몸무게) > 증가/감소 관계
+plot(data$height, data$weight)
+
+# 그래프 제목 main, x축 제목 xlab, y축 제목 ylab
+plot(data$height, data$weight, xlab = "키", ylab = "몸무게", main = "키와 몸무게의 산점도 그래프")
+
+# 점 컬러 col, 점의 모양 pch
+plot(data$height, data$weight, xlab = "키", ylab = "몸무게", main = "키와 몸무게의 산점도 그래프", col = "red", pch=19)
+
+plot(data$weight, data$height, xlab = "몸무게", ylab = "키", main = "몸무게와 키의 산점도 그래프", col = "red", pch=19)
+
+
+# 라이브러리 산포도 기능
+pairs(data)
+
+
+# 문제 1-3번
+# R에서 제공하는 pressure 데이터셋을 이용해서 temperature 와 pressure에 대한 산점도를 그리시오 (x 축이 temperature). 두 변수간 상관 관계를 설명해 보시오
+plot(pressure$temperature, pressure$pressure, xlab = "temperature", ylab = "pressure", main = "temperature와 pressure의 산점도 그래프", col = "red", pch=19)
+
+pairs(pressure)
+
+
+# 몸무게/키 상관계수 계산
+cor(data$weight, data$height)
+
+# 키/몸무게 상관계수 계산
+cor(data$height, data$weight)
+
+
+# 연습문제2
+# 다음은 10 명의 수입과 교육받은 기간을 조사한 표이다 . 수입과 교육기간 사이에 어느정도 상관관계가 있는지 조사하시오 산점도 , 상관계수 구하기
+income = c(125000, 100000, 40000, 35000, 41000, 29000, 35000, 24000, 50000, 60000)
+yoe = c(19, 20, 16, 16, 18, 12, 14, 12, 16, 17)
+
+data = data.frame(income, yoe)
+
+plot(data$yoe, data$income, xlab = "교육기간", ylab = "수입", main = "교육기간에 따른 수입의 산점도 그래프", col = "red", pch=19)
+
+cor(data$yoe, data$income)
+
+
+
+# 선 그래프 p221
+month = 1:12
+late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+
+# 점 그래프 = 산점도 = 산포도
+plot(month, late)
+
+# 선 그래프
+plot(month, late, type = 'l')
+
+# 그래프 제목, x/y축 제목
+# x축: 월
+# y축: 지각생
+# 그래프 제목: 월별 지각생 통계
+plot(month, late, type = 'l', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 'b'
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 'o'
+plot(month, late, type = 'o', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# type = 's'
+plot(month, late, type = 's', xlab = "월", ylab = "지각생", main = "월별 지각생 통계")
+
+# p224 선 그래프 2개
+month = 1:12
+late = c(5, 8, 7, 9, 4, 6, 12, 13, 8, 6, 6, 4)
+late2 = c(4, 6, 5, 8, 7, 8, 10, 11, 6, 5, 7, 3)
+
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계", col = "blue")
+lines(month, late2, type = 'b', col = "red")
+
+plot(month, late, type = 'b', xlab = "월", ylab = "지각생", main = "월별 지각생 통계", col = "blue")
+lines(month, late2, type = 'b', col = "red")
+
+# 상관계수: 월에 따른 지각생 > 관계 없음
+cor(month, late)
+
+# 상관계수: 월에 따른 지각생2 > 관계 없음
+cor(month, late2)
+
