@@ -1067,3 +1067,105 @@ cor(month, late)
 # 상관계수: 월에 따른 지각생2 > 관계 없음
 cor(month, late2)
 
+
+
+# ========================================================
+# 2024.04.06 11주차 데이터 전처리
+# ========================================================
+# 결측값 (NA)
+z = c(1, 2, 3, NA, 5, NA, 8)
+
+# 결측값 여부
+is.na(z)
+
+# 결측값 총 개수
+sum(is.na(z))
+
+# 결측값 치환 (NA -> 0)
+z[is.na(z)] = 0
+z
+
+# 결측값 제거
+x = c(1, 2, 3, NA, 5, NA, 8)
+y = as.vector(na.omit(x))
+y
+
+# 2차원 배열 결측값 처리
+x = iris
+x[1, 2] = NA
+x[1, 3] = NA
+x[2, 3] = NA
+x[3, 4] = NA
+head(x)
+
+# 결측값 여부
+is.na(x)
+
+# 결측값 총 개수
+sum(is.na(x))
+
+# 행/열에 따른 결측값
+rowSums(is.na(x))
+
+# 결측값 치환 (NA -> 0)
+z = x
+z[is.na(z)] = 0
+head(z)
+
+# 결측값 제거
+y = x
+head(y)
+y = na.omit(y)
+head(y)
+
+# 특이값=이상치
+st = data.frame(state.x77)
+
+# 미국 내 월급 데이터
+st$Income
+
+# 상자그림 시각화 -> 이상치 확인
+boxplot(st$Income)
+
+# 이상치 값
+boxplot.stats(st$Income)$out
+
+# 이상치 제거
+outVal = boxplot.stats(st$Income)$out
+
+# 이상치=결측값 처리
+# 3624   NA 4530 3378 5114
+st$Income[st$Income %in% outVal] = NA
+
+# 이상치=결측값 제거
+newData = st[complete.cases(st), ]
+
+
+# 데이터 정렬
+v1 = c(1, 7, 6, 8, 4, 2, 3)
+
+# 오름차순 정렬
+sort(v1)
+
+# 내림차순 정렬
+sort(v1, decreasing = TRUE)
+
+# 2차원 오름차순 정렬
+st[order(st$Income, decreasing = FALSE), ]
+
+# 2차원 내림차순 정렬
+st[order(st$Income, decreasing = TRUE), ]
+
+# 정렬, 순위
+v3 = c(1, 7, 2, 5)
+order(v3)
+rank(v3)
+
+# 연습문제 3
+# 1. state.x77 데이터셋을 Population 을 기준으로 오름차순 정렬을 하시오
+st[order(st$Population, decreasing = FALSE), ]
+
+# 조건 선택
+# 데이터 요약
+# 데이터 병합
+
