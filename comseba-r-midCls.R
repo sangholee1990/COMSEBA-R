@@ -1166,6 +1166,63 @@ rank(v3)
 st[order(st$Population, decreasing = FALSE), ]
 
 # 조건 선택
+# iris 데이터 내 Species 컬럼 == "setosa"인 경우
+subset(iris, Species == "setosa")
+
+# iris 데이터 내 Sepal.Length 컬럼 > 5.1인 경우
+subset(iris, Sepal.Length > 5.1)
+
+# iris 데이터 내 Sepal.Length 컬럼 > 5.1인 경우 Petal.Length,Petal.Width 열 선택
+subset(iris, Sepal.Length > 5.1, select = c(Petal.Length,Petal.Width))
+
+
+# 1차원 데이터 선택
+x = c(3, 1, 7, 8, 5, 9, 4)
+
+# 해당 조건 내 인덱스 제공
+which(x > 5)
+
+# 해당 조건 내 인덱스 최대값
+which.max(x > 5)
+
+# 해당 조건 내 인덱스 최소값
+which.min(x > 5)
+
+
 # 데이터 요약
+# iris 데이터셋에서 각 품종별로 꽃잎 꽃받침의 폭과 길이의 평균 을 보이시오
+agg = aggregate(iris[, -5], by = list(iris$Species), FUN=mean)
+agg
+
+
+agg = aggregate(iris[, -5], by = list(iris$Species), FUN=max)
+agg
+
+# mtcars 데이터셋에서 cyl,vs 을 기준으로 다른 컬럼들의 최대값을 보이시오
+agg = aggregate(mtcars, by = list(mtcars$cyl, mtcars$vs), FUN=max)
+agg
+
 # 데이터 병합
+# 수학 점수 테이블
+x = data.frame(name = c("a", "b", "c"), math = c(90, 80, 40))
+x
+
+# 국어 점수 테이블
+y = data.frame(name = c("a", "b", "d"), kor = c(75, 60, 90))
+y
+
+
+# 두 테이블 병합
+# 합집합 a,b,c,d
+merge(x, y, by = c("name"), all=TRUE)
+
+# 교집합 a,b
+merge(x, y, by = c("name"), all=FALSE)
+
+# A기준 a,b,c
+merge(x, y, by = c("name"), all.x = TRUE)
+
+# B기준 a,b,d
+merge(x, y, by = c("name"), all.y = TRUE)
+
 
