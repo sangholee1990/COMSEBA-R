@@ -1134,32 +1134,33 @@ merge(x, y, by = c("name"), all.x = TRUE)
 merge(x, y, by = c("name"), all.y = TRUE)
 
 
-# ==============================================================================
-# 2023.12.16
-# ==============================================================================
-# 패키지 설치 (1번)
+# ===============================================================
+# 2024.05.04 
+# 07강 R 데이터 시각화
+# ===============================================================
+# 패키지 설치 (1번) 최초 1번 설치
 # install.packages("ggplot2")
 
-# 패키지 읽기
+# 패키지 읽기 또는 가져오기
 library(ggplot2)
 
 # 키 데이터 (cm)
-height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
-
-# 몸무게 데이터 (kg)
-weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
-
-# 번호
-idx = 1:length(weight)
-  
-# 데이터 병합
-data = data.frame(idx, height, weight)
-
-# 출력
-head(data)
-
-summary(data)
-  
+# height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+# 
+# # 몸무게 데이터 (kg)
+# weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+# 
+# # 번호
+# idx = 1:length(weight)
+#   
+# # 데이터 병합
+# data = data.frame(idx, height, weight)
+# 
+# # 출력
+# head(data)
+# 
+# summary(data)
+#   
 # 키 데이터 (cm)
 height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
 
@@ -1189,7 +1190,7 @@ summary(data)
 # xlab: x축 제목
 # ylab: y축 제목
 # pch: 점 모양
-# plot(data$height, data$weight, main="Height vs Weight", xlab="Height (cm)", ylab="Weight (kg)", pch=19)
+plot(data$height, data$weight, main="Height vs Weight", xlab="Height (cm)", ylab="Weight (kg)", pch=19)
 
 # ggplot2 함수
 ggplot(data, aes(x = height, y = weight)) +
@@ -1203,12 +1204,13 @@ ggplot(data, aes(x = height, y = weight)) +
 # 키의 분포 시각화
 # *********************************
 # 기본 hist 함수 사용
-# hist(data$height, main="Histogram of Height", xlab="Height (cm)", ylab="Frequency")
+hist(data$height, main="Histogram of Height", xlab="Height (cm)", ylab="Frequency")
 
 # ggplot 함수
 ggplot(data, aes(x = height)) +
   geom_histogram(color = "white") +
   labs(title="Histogram of Height", x="Height (cm)", y="Frequency")
+
 
 # *********************************
 # 몸무게의 분포 시각화 
@@ -1236,8 +1238,12 @@ ggplot(data, aes(x = idx, y = height)) +
 # *********************************
 # 번호에 따른 몸무게의 점선 그래프
 # *********************************
+plot(data$idx, data$weight, type = 'o', main="번호에 따른 몸무게의 점선 그래프", xlab="번호", ylab="몸무게 (kg)")
 
-
+ggplot(data, aes(x = idx, y = weight)) +
+  geom_line() +
+  geom_point() +
+  labs(title="번호에 따른 몸무게의 점선 그래프", x="번호", y="몸무게 (kg)")
 
 
 
@@ -1275,15 +1281,16 @@ ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
   geom_point() +
   labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
 
-ggplot(dataL1, aes(x = gender, y = height, color = gender)) +
-  geom_boxplot() +
-  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+# ggplot(dataL1, aes(x = gender, y = height, color = gender)) +
+#   geom_boxplot() +
+#   labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
 
 # 성별에 따른 점 그래프 (2)
 ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
   geom_point() +
   facet_wrap( ~gender) +
   labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
 
 # 성별에 따른 선 그래프 (1)
 ggplot(data, aes(x = idx, y = height, color = gender)) +
@@ -1293,12 +1300,13 @@ ggplot(data, aes(x = idx, y = height, color = gender)) +
   labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
 
 
-# 성별에 따른 선 그래프 (1)
+# 성별에 따른 선 그래프 (2)
 ggplot(data, aes(x = idx, y = height, color = gender)) +
   geom_line() +
   geom_point() +
   facet_wrap( ~gender, scales = "free_x") +
   labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
 
 # 성별에 따른 키 분포 (1)
 ggplot(data, aes(x = height, fill = gender)) +
@@ -1348,7 +1356,8 @@ library(ggmap)
 library(ggplot2)
 
 # 구글 인증키 등록
-ggmap::register_google(key = "인증키")
+# ggmap::register_google(key = "인증키")
+ggmap::register_google(key = "AIzaSyCOfommvdtr_CVmQyL-5wFz31G21CklUE4")
 
 # R	특정 지역/위경도의 지도 보기
 # 구글맵 요청

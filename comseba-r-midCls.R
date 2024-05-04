@@ -1226,3 +1226,308 @@ merge(x, y, by = c("name"), all.x = TRUE)
 merge(x, y, by = c("name"), all.y = TRUE)
 
 
+
+
+
+
+
+# ==============================================================================
+# 2023.12.16
+# ==============================================================================
+# 패키지 설치 (1번)
+# install.packages("ggplot2")
+
+# 패키지 읽기
+library(ggplot2)
+
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+
+# 번호
+idx = 1:length(weight)
+
+# 데이터 병합
+data = data.frame(idx, height, weight)
+
+# 출력
+head(data)
+
+summary(data)
+
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "남성", "남성", "남성", "남성", "여성", "여성", "여성", "여성", "여성", "여성", "여성")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender)
+
+# 출력
+head(data)
+
+# 요약 정보
+summary(data)
+
+# 산점도 = 점 그래프
+
+# 기본 plot 함수
+# x축 데이터, y축 데이터
+# main: 그림 제목
+# xlab: x축 제목
+# ylab: y축 제목
+# pch: 점 모양
+# plot(data$height, data$weight, main="Height vs Weight", xlab="Height (cm)", ylab="Weight (kg)", pch=19)
+
+# ggplot2 함수
+ggplot(data, aes(x = height, y = weight)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 히스토그램 그래프
+# 연속형 -> 범주형/카테고리형
+
+# *********************************
+# 키의 분포 시각화
+# *********************************
+# 기본 hist 함수 사용
+# hist(data$height, main="Histogram of Height", xlab="Height (cm)", ylab="Frequency")
+
+# ggplot 함수
+ggplot(data, aes(x = height)) +
+  geom_histogram(color = "white") +
+  labs(title="Histogram of Height", x="Height (cm)", y="Frequency")
+
+# *********************************
+# 몸무게의 분포 시각화 
+# *********************************
+# 기본 hist 함수 사용
+# hist(data$weight, main="Histogram of Weight", xlab="Weight (kg)", ylab="Frequency")
+
+# ggplot 함수
+ggplot(data, aes(x = weight)) +
+  geom_histogram(color = "white") +
+  labs(title="Histogram of Weight", x="Weight (kg)", y="Frequency")
+
+
+# *********************************
+# 번호에 따른 키의 점선 그래프
+# *********************************
+plot(data$idx, data$height, type = 'o', main="번호에 따른 키의 점선 그래프", xlab="번호", ylab="키 (cm)")
+
+ggplot(data, aes(x = idx, y = height)) +
+  geom_line() +
+  geom_point() +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+
+# *********************************
+# 번호에 따른 몸무게의 점선 그래프
+# *********************************
+
+
+
+
+
+# *********************************
+# 데이터 전처리
+# *********************************
+# 키 데이터 (cm)
+height = c(160, 162, 168, 170, 172, 174, 176, 178, 180, 182, 190, 200, 150, 0)
+
+# 몸무게 데이터 (kg)
+weight = c(55, 58, 62, 65, 68, 72, 75, 78, 82, 85, 80, NA, 500, 30) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "남성", "남성", "남성", "남성", "여성", "여성", "여성", "여성", "여성", "여성", "여성")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender)
+
+# 출력
+head(data)
+
+# 결측값 (NA) 삭제
+dataL1 = na.omit(data)
+dataL1
+
+
+# *********************************
+# ggplot2 편리성
+# *********************************
+# 성별에 따른 점 그래프 (1)
+ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
+  geom_point() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+ggplot(dataL1, aes(x = gender, y = height, color = gender)) +
+  geom_boxplot() +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 성별에 따른 점 그래프 (2)
+ggplot(dataL1, aes(x = height, y = weight, color = gender)) +
+  geom_point() +
+  facet_wrap( ~gender) +
+  labs(title="Height vs Weight", x="Height (cm)", y="Weight (kg)")
+
+# 성별에 따른 선 그래프 (1)
+ggplot(data, aes(x = idx, y = height, color = gender)) +
+  geom_line() +
+  # geom_point(aes(shape = gender), size = 10) +
+  geom_point() +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+
+# 성별에 따른 선 그래프 (1)
+ggplot(data, aes(x = idx, y = height, color = gender)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap( ~gender, scales = "free_x") +
+  labs(title="번호에 따른 키의 점선 그래프", x="번호", y="키 (cm)")
+
+# 성별에 따른 키 분포 (1)
+ggplot(data, aes(x = height, fill = gender)) +
+  geom_histogram(color = "white", alpha = 0.5) +
+  labs(title="성별에 따른 키 분포", x="키")
+
+# 성별에 따른 키 분포 (2)
+ggplot(data, aes(x = height, fill = gender)) +
+  geom_histogram(color = "white", alpha = 0.5) +
+  facet_wrap( ~gender, scales = "free_y") +
+  labs(title="성별에 따른 키 분포", x="키")
+
+
+
+# ==============================================================================
+# 2024.05.04
+# 08강 지도와 데이터
+# ==============================================================================
+
+# 키 데이터 (cm)
+height = c(160, 170, 180, 190, 200)
+
+# 몸무게 데이터 (kg)
+weight = c(50, 60, 70, 80, 90) 
+
+# 번호
+idx = 1:length(weight)
+
+# 성별
+gender = c("남성", "남성", "남성", "여성", "여성")
+
+# 주소
+addr = c("서울특별시 금천구", "인천광역시 송도", "대전광역시", "부산특별시", "제주도")
+
+# 데이터 병합
+data = data.frame(idx, height, weight, gender, addr)
+
+# 출력
+data
+
+# https://console.cloud.google.com/apis/credentials/key/15f0ad2e-ca2e-41a1-b9bf-2d2702d47f0e?project=red-context-395619
+# My First Project > API 및 서비스 > 사용자 인증 정보
+
+# 패키지 설치
+# install.packages("ggmap")
+
+# 패키지 가져오기
+library(ggmap)
+library(ggplot2)
+
+# 구글 인증키 등록
+# ggmap::register_google(key = "인증키")
+ggmap::register_google(key = "AIzaSyCOfommvdtr_CVmQyL-5wFz31G21CklUE4")
+
+# R	특정 지역/위경도의 지도 보기
+# 구글맵 요청
+# map = ggmap::get_googlemap(c(128, 38), maptype="roadmap", zoom=1)
+
+# zomm 1~14 조정
+zoom = 5
+# zoom = 14
+# maptype = "roadmap"
+# maptype = "terrain"
+# maptype = "satellite"
+maptype = "hybrid"
+map = ggmap::get_googlemap(c(128, 38), maptype=maptype, zoom=zoom)
+
+ggmap::ggmap(map)
+
+
+
+
+# 인천광역시 송도 중심 위경도
+# map = ggmap::get_googlemap(c(126.6564, 37.3835), maptype="hybrid", zoom=14)
+
+map = ggmap::get_googlemap(c(126.6564, 37.3835), maptype="hybrid", zoom=20)
+
+ggmap::ggmap(map)
+
+
+# R	지도 기반 마커/텍스트/데이터 표시
+
+# 샘플 데이터에서 주소를 위경도 환산
+geoData = ggmap::geocode(enc2utf8(data$addr))
+geoData
+
+# 샘플 데이터에서 위도, 경도 컬럼 추가
+dataL1 = cbind(data, geoData)
+dataL1
+
+# 경도의 평균
+mean(dataL1$lon, na.rm = TRUE)
+
+# 위도의 평균
+mean(dataL1$lat, na.rm = TRUE)
+
+# cen = c(mean(dataL1$lon, na.rm = TRUE), mean(dataL1$lat, na.rm = TRUE))
+cen = c(126.6389, 37.38610)
+  
+  
+# 마커 5개
+map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=10, marker=geoData)
+# map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=6)
+# map = ggmap::get_googlemap(cen, maptype="roadmap", zoom=14, marker=geoData)
+
+# 마커
+# ggmap::ggmap(map)
+
+# 마커 + 주소 이름
+ggmap::ggmap(map) +
+  geom_text(data = dataL1, aes(x = lon, y = lat), size = 5, label = dataL1$addr)
+
+# 연습문제 1
+# 1번 문제
+geoData = ggmap::geocode(enc2utf8("서울시청"))
+geoData 
+
+# map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=10, marker=geoData)
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=10)
+
+ggmap::ggmap(map)
+
+# 수동으로 마커 표시
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="roadmap", zoom=6, marker = data.frame(lon = 128, lat = 38))
+
+ggmap::ggmap(map)
+
+# 집 주소
+geoData = ggmap::geocode(enc2utf8("서울특별시 구로구 경서로 21"))
+geoData 
+
+map = ggmap::get_googlemap(c(geoData$lon, geoData$lat), maptype="hybrid", zoom=16)
+
+ggmap::ggmap(map)
+
