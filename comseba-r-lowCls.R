@@ -1461,7 +1461,8 @@ anText = extractNoun(exText)
 print(anText)
 
 # 텍스트 파일
-text = readLines("김영삼_취임사.txt")
+# text = readLines("김영삼_취임사.txt")
+text = readLines("노무현_취임사.txt")
 text
 
 # 문장 취합
