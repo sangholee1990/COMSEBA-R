@@ -1652,3 +1652,209 @@ barplot(keyword)
 pal = brewer.pal(8, "Dark2")
 
 wordcloud(names(keyword), freq = keyword, colors = pal)
+
+
+
+# ==============================================================================
+# 2024.06.08
+# ==============================================================================
+# 기온-온도-아이스크림 판매량 데이터 읽기
+data = read.csv(file = "기온-습도-아이스크림 판매량.csv")
+
+data
+
+# 학생 번호, 기온, 습도, 판매량
+str(data)
+
+# *************************************************
+# 선형회귀모형: 기온을 이용해서 판매량 예측
+# *************************************************
+# x축 기온, y축 판매량 산점도
+plot(data$temp, data$sales)
+
+# 모형 학습: 기온으로 판매량 예측
+lmModel = lm(sales ~ temp, data)
+
+# a = 2.485, b = 43.700
+lmModel
+
+# 회귀식 시각화 
+abline(coef(lmModel), col = "red")
+
+
+# Y = a X + b
+a = 2.485
+b = 43.700
+
+# 모형을 통해 판매량 예측
+yHat = a * (data$temp) + b
+yHat
+
+lines(data$temp, yHat, col = "blue")
+
+
+# 예측 판매량
+data$salesTemp = yHat
+View(data)
+
+# 기온 30도일 때 예측 판매량 118.25
+yHat = a * 30 + b
+yHat
+
+predict(lmModel, newdata = data.frame(temp = 30))
+
+
+# 기온 50도일 때 예측 판매량 167.95 
+yHat = a * 50 + b
+yHat
+
+predict(lmModel, newdata = data.frame(temp = 50))
+
+
+# ************************************************
+# 선형회귀모형: 습도를 이용해서 판매량 예측
+# ************************************************
+# x축 습도, y축 판매량 산점도
+plot(data$humi, data$sales)
+
+# 습도를 이용해서 판매량 예측
+lmModel = lm(sales ~ humi, data)
+
+# (Intercept)         humi  
+# 97.597       -0.108 
+lmModel
+
+# 회귀식 시각화 
+abline(coef(lmModel), col = "red")
+
+# 습도 30%일 때 예측 판매량
+predict(lmModel, newdata = data.frame(humi = 30))
+
+# 습도 50%일 때 예측 판매량 
+predict(lmModel, newdata = data.frame(humi = 50))
+
+
+# ************************************************
+# 다중선형회귀모형: 기온, 습도를 이용해서 판매량 예측
+# ************************************************
+# # x축 습도, y축 판매량 산점도
+# plot(data$humi, data$sales)
+
+# 기온, 습도으로 판매량 예측
+# Y = a X1 + b X2 + c
+lmModel = lm(sales ~ temp + humi, data)
+
+# (Intercept)         temp         humi  
+# 51.1079       2.4878      -0.1263  
+lmModel
+
+# 회귀식 시각화 
+# abline(coef(lmModel), col = "red")
+
+# 기온 30, 습도 30%일 때 예측 판매량
+predict(lmModel, newdata = data.frame(temp = 30, humi = 30))
+
+# 기온 50, 습도 50%일 때 예측 판매량 
+predict(lmModel, newdata = data.frame(temp = 30, humi = 50))
+
+# 예측 결과
+data$salesTempHumi  = predict(lmModel)
+View(data)
+
+
+# ************************************************
+# 예측 결과의 성능 평가
+# ************************************************
+# 실제 판매량 vs 예측 판매량 (기온)
+plot(data$salesTemp, data$sales)
+
+# 상관계수 -1.0 ~ 1.0
+cor(data$salesTemp, data$sales)
+
+# 오차 계산
+error = data$sales - data$salesTemp
+
+# Mean Absolute Error (MAE)
+mae = mean(abs(error))
+mae
+
+# Mean Squared Error (MSE)
+mse = mean(error^2)
+mse
+
+
+# 실제 판매량 vs 예측 판매량 (기온, 습도)
+plot(data$sales, data$salesTempHumi)
+
+# 상관계수 -1.0 ~ 1.0
+cor(data$sales, data$salesTempHumi)
+
+# 오차 계산
+error = data$sales - data$salesTempHumi
+
+# Mean Absolute Error (MAE)
+mae = mean(abs(error))
+mae
+
+# Mean Squared Error (MSE)
+mse = mean(error^2)
+mse
+
+# 상관계수
+# 0.9293881 vs 0.9954583
+
+# mae 오차
+# 7.088635 vs 6.952016
+
+# mse 오차
+# 81.16346 vs 76.45711
+
+# ************************************************
+# 판매량을 범주형 변수로 변환 (예: 낮음, 중간, 높음)
+# ************************************************
+data$salesFac = cut(data$sales, breaks=quantile(data$sales, probs=0:2/2), include.lowest=TRUE, labels=c("낮음", "높음"))
+data
+
+# 범주형 변수 시각화
+tbData = table(data$salesFac)
+tbData
+barplot(tbData)
+
+# 로지스틱 회귀 모델 적합 (기온, 습도 -> 판매량 범주)
+lmModel = glm(salesFac ~ temp + humi, data=data, family=binomial)
+summary(lmModel)
+
+# 기온 30, 습도 30%일 때 분류 판매량
+predict.glm(lmModel, newdata = data.frame(temp = 30, humi = 30), type = "response")
+
+# 기온 50, 습도 50%일 때 분류 판매량
+predict.glm(lmModel, newdata = data.frame(temp = 30, humi = 50), type = "response")
+
+# 예측 결과
+data$prdCls = predict.glm(lmModel, type = "response")
+data$prdClsName = ifelse(data$prdCls > 0.5, "높음", "낮음")
+
+View(data)
+
+# 카테고리형 정확도 측정
+yObs = data$salesFac
+yObsYn = as.numeric(yObs)
+
+yHat = data$prdCls
+yHatYn = ifelse(yHat > 0.5, 2, 1)
+
+conMatRes = caret::confusionMatrix(data = factor(yHatYn), reference = factor(yObsYn))
+# 정확도 : 0.809
+round(conMatRes$overall["Accuracy"], 4)
+
+# 민감도 : 0.6296
+round(conMatRes$byClass["Sensitivity"])
+
+# 특이도 : 0.8871
+round(conMatRes$byClass["Specificity"])
+
+# ROC 커브를 위한 설정
+library(ROCit)
+logitRoc = ROCit::rocit(score = yHatYn, class = yObsYn)
+mainTitle = "ROC 곡선-전체 변수"
+plot(logitRoc, main = mainTitle)
